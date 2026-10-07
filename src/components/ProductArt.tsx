@@ -1,0 +1,7 @@
+import type { Product } from '../domain/products';
+export function ProductArt({product:p,small=false}:{product:Product;small?:boolean}) {
+  const fruit=p.kind==='apple'||p.kind==='banana',bread=p.kind==='bread'||p.kind==='croissant';
+  return <div className={`product-art ${small?'small':''}`} style={{'--product-color':p.color} as React.CSSProperties} aria-hidden="true">
+    {fruit?<svg viewBox="0 0 120 120">{p.kind==='apple'?<><path d="M62 36c-4-18 14-23 22-22-4 13-13 20-22 22" fill="#527647"/><path d="M60 40c-33-22-59 22-35 55 18 27 27 6 36 13 16 13 43-17 39-44-3-24-20-32-40-24" fill={p.color}/><path d="M42 51c-12 7-14 22-8 32" fill="none" stroke="#f6c6a0" strokeWidth="4" strokeLinecap="round"/></>:<><path d="M27 22c8 38 22 58 72 55-8 33-57 35-76 3C11 61 13 37 27 22" fill={p.color}/><path d="M28 36c5 35 29 55 57 51" fill="none" stroke="#ba9d3d" strokeWidth="3"/><path d="m24 22 4-9m70 62 9-2" stroke="#6c603d" strokeWidth="8"/></>}</svg>:bread?<svg viewBox="0 0 120 120"><ellipse cx="60" cy="78" rx="47" ry="26" fill={p.color}/><path d="m36 60 8 26m10-30 9 28m10-30 9 23" stroke="#eed19b" strokeWidth="5" strokeLinecap="round"/></svg>:<div className={`package-art ${p.kind}`}><span>AI GROCERY</span><strong>{p.kind==='bar'?'70%':p.category==='Getränke'?'FRESH':'CRUNCH'}</strong><em>{p.size}</em></div>}
+  </div>;
+}
