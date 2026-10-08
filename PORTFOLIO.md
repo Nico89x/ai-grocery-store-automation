@@ -4,8 +4,8 @@
 
 - Repository: [Nico89x/ai-grocery-store-automation](https://github.com/Nico89x/ai-grocery-store-automation)
 - Live-Demo: [AI Grocery Store Automation](https://nico89x.github.io/ai-grocery-store-automation/)
-- [Tests und Produktionsbuild](https://github.com/Nico89x/ai-grocery-store-automation/actions/runs/37738794156) und [Pages-Veröffentlichung](https://github.com/Nico89x/ai-grocery-store-automation/actions/runs/37738794197) am 8. Oktober 2026 erfolgreich.
-- Die öffentliche Version wurde im Browser geprüft: direkter 3D-Produktklick, Chips-Bestand 4 → 3, eine Lagerwarnung, sechs erfolgreiche Events sowie Wasser-Fehler und Retry ohne zweiten Abzug.
+- [Tests und Produktionsbuild](https://github.com/Nico89x/ai-grocery-store-automation/actions/runs/37779439241) und [Pages-Veröffentlichung](https://github.com/Nico89x/ai-grocery-store-automation/actions/runs/37779439206) am 8. Oktober 2026 erfolgreich.
+- Die aktuelle öffentliche Version wurde auf Desktop (1440 × 1000) und Mobilgerät (390 × 844) im Browser geprüft: direkter 3D-Produktklick, Chips-Bestand 4 → 3, eine Lagerwarnung, sechs erfolgreiche Events sowie Wasser-Fehler und Retry ohne zweiten Abzug.
 
 Diese beiden Links können in Bewerbungen verwendet werden. Für die Demo ist keine Anmeldung erforderlich. Alle Abläufe sind ausdrücklich simuliert.
 
