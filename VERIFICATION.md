@@ -83,3 +83,17 @@ Die alten Prüfeinträge dokumentieren den damaligen Stand; die Zahlen in diesem
 Der erste Linux-CI-Lauf bestand 14 Logiktests und den Produktionsbuild, aber nur neun der zwölf Browserfälle. Kamerafahrten addierten pro Bild höchstens 50 ms, und der Simulator begrenzte verzögerte Takte auf eine Sekunde. Bei langsamer Software-Grafik wurde die Demo dadurch langsamer als die Uhr.
 
 Kamerafahrten nutzen jetzt eine monotone Zeitmessung; Simulationstakte holen bis zu zehn Sekunden in geordneten 250-ms-Schritten nach. Unsichtbare Tabs pausieren die Uhr. Tastatur- und Touchbewegungen fordern auch bei pausierten Kund:innen weitere Bilder an. Ein zusätzlicher Regressionstest vergleicht verzögerte Takte mit regulären Taktfolgen einschließlich Kundenbestellungen und Lagerbuchungen. **15 Logiktests** und der Produktionsbuild bestehen lokal.
+
+## Abschluss: öffentlich geprüfter Portfolio-Ausbau, 8. Oktober 2026
+
+- [PR #1](https://github.com/Nico89x/ai-grocery-store-automation/pull/1) wurde nach erfolgreicher Prüfung zusammengeführt. Getesteter Anwendungscode: `325c0d76844e92f6be262e49ae71fef680787c07`.
+- [Hauptbranch-Prüflauf](https://github.com/Nico89x/ai-grocery-store-automation/actions/runs/37779439241): erfolgreich; 15 Logik-/Adapter-/Geometrietests, Produktionsbuild und alle zwölf Browserfälle. [Pages-Veröffentlichung](https://github.com/Nico89x/ai-grocery-store-automation/actions/runs/37779439206): Build und Deployment erfolgreich.
+- Der Kunden-Browsertest wählt die erste automatische Bestellung aus. Deren dauerhaftes `inventory.updated`-Ereignis belegt Orangensaft 10 → 9. Der aktuelle Gesamtbestand darf inzwischen weiter gesunken sein, wenn andere Kund:innen ebenfalls Saft kaufen. Der erste CI-Vergleich 9 gegen 8 war eine ungeeignete Annahme über parallele Käufe; die konkrete Buchung wird weiterhin exakt geprüft.
+- Auf der tatsächlich veröffentlichten Seite, Desktop 1440 × 1000: echter 3D-Klick auf die Chips-Packung; Produktdetails; Warenkorb 1 → 2 → 1 mit 2,49 / 4,98 / 2,49 Euro; Demo-Kauf; Chips 4 → 3, eine Warnung und alle sechs Ereignisse erfolgreich. Webhook-Modus: lokale Demo-Verarbeitung.
+- Mobil 390 × 844: absichtlicher Fehler beim Wasser-Abschluss; Bestand 15 → 14. Retry endet mit Versuch 2 und weiterhin Bestand 14. Kein horizontaler Überlauf.
+- Öffentliche Kundenanimationen erzeugten zusätzliche abgeschlossene Bestellungen. Die erste wurde über die Bestellauswahl geprüft: Quelle Kund:in, 1,89 Euro, Saftbuchung −1 auf 9, erfolgreicher Abschluss. Weitere Käufe laufen über dieselbe Bestellqueue.
+- Öffentliches Video spielt: Dauer 49,72 Sekunden, deutsche Untertitel vorhanden. Außen-/Innenansicht und neue Figuren sichtbar. Browserkonsole ohne Fehler oder Warnungen.
+- Die aktuellen öffentlichen Screenshots sind [Außenansicht](docs/store-exterior.png), [Innenansicht mit Workflow](docs/store-interior.png) und [mobiler Retry](docs/public-mobile.png). Sie zeigen tatsächlich erzeugte UI-Zustände; keine nachträglich eingesetzten Bestellwerte.
+- Der reale lokale n8n-Testworkflow ist weiterhin aktiv. Die öffentliche Demo benötigt ihn nicht. Synthetische HTTP-Nachweise und Importdateien bleiben unter `automation/` und `docs/` verfügbar.
+
+Die abschließende Aktualisierung der Markdown-Nachweise und Screenshots verändert keinen Anwendungscode. Die oben verlinkten vollständigen Prüfungen beziehen sich auf den veröffentlichten Anwendungsstand.
