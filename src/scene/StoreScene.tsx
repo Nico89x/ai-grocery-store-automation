@@ -118,7 +118,7 @@ function Room() {
   </group>;
 }
 function CameraController({view,walk,onMoving}:{view:number;walk:string|null;onMoving:(value:boolean)=>void}) {
-  const controls=useRef<OrbitControlsImpl>(null),keys=useRef(new Set<string>());const {camera,invalidate}=useThree();
+  const controls=useRef<OrbitControlsImpl>(null),keys=useRef(new Set<string>());const {camera,invalidate,size}=useThree();
   const firstView=useRef(true),transition=useRef<{from:THREE.Vector3;to:THREE.Vector3;fromTarget:THREE.Vector3;toTarget:THREE.Vector3;elapsed:number}|null>(null);
   const outside=view%4===3;
   useEffect(()=>{
@@ -130,14 +130,14 @@ function CameraController({view,walk,onMoving}:{view:number;walk:string|null;onM
   useEffect(()=>{
     const c=controls.current;if(!c)return;
     const poses:V3[]=[[.5,3.4,8.8],[9,8,12],[.2,1.75,5.35],[8,5.6,17.5]];
-    if(camera instanceof THREE.PerspectiveCamera){camera.fov=view%4===2?62:49;camera.updateProjectionMatrix();}
+    if(camera instanceof THREE.PerspectiveCamera){camera.fov=(view%4===2?62:49)+(size.width/size.height<1.1?24:0);camera.updateProjectionMatrix();}
     // Restliche Orbit-Trägheit vor einem festen Ansichtswechsel vollständig auflösen.
     c.enableDamping=false;c.update();
     const to=new THREE.Vector3(...poses[view%4]),toTarget=outside?new THREE.Vector3(0,1.8,2.8):new THREE.Vector3(0,view%4===2?1.35:1,-1.1);
     if(firstView.current||window.matchMedia('(prefers-reduced-motion: reduce)').matches){camera.position.copy(to);c.target.copy(toTarget);c.update();c.enableDamping=true;firstView.current=false;transition.current=null;c.enabled=true;onMoving(false);}
     else {transition.current={from:camera.position.clone(),to,fromTarget:c.target.clone(),toTarget,elapsed:0};c.enabled=false;onMoving(true);}
     invalidate();
-  },[camera,view,onMoving,invalidate]);
+  },[camera,view,onMoving,invalidate,size.width,size.height]);
   useFrame((_,dt)=>{
     const c=controls.current;if(!c)return;
     const trip=transition.current;
