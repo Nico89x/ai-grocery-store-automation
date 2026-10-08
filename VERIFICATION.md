@@ -56,3 +56,13 @@ Die 3D-Demo verwendet selbst erstellte Geometrie, Etiketten und Materialtexturen
 - Direkter Klick auf die 3D-Chipstüte öffnet Kesselchips. Manueller Kauf: Bestand 4 → 3, eine Warnung, sechs erfolgreiche Events. Testfehler: Wasser 15 → 14, Retry erfolgreich mit Versuch 2 und weiterhin Bestand 14.
 - Desktop 1440 × 1000 und mobile Breite 390 × 844 geprüft: kein horizontaler Überlauf, Warenkorb-Dialog bedienbar. Keine Browser-Konsolenfehler oder Warnungen.
 - Öffentliches Repository Nico89x/ai-grocery-store-automation erstellt. Pages-Quelle GitHub Actions und ENABLE_PAGES=true eingerichtet; Upload und erster Deployment-Prüflauf werden anschließend ausgeführt.
+
+## Öffentliche Prüfung – 8. Oktober 2026
+
+- Vollständiger Quellcode und eigene Screenshots im öffentlichen Repository https://github.com/Nico89x/ai-grocery-store-automation.
+- GitHub-Workflow Tests and production build erfolgreich: https://github.com/Nico89x/ai-grocery-store-automation/actions/runs/37738794156.
+- Pages-Build und Deployment erfolgreich: https://github.com/Nico89x/ai-grocery-store-automation/actions/runs/37738794197. Öffentliche Demo: https://nico89x.github.io/ai-grocery-store-automation/.
+- Öffentliche Startansicht und Ladeninnenraum laden ohne Anmeldung. Direkter Klick auf gelbe 3D-Chipstüte öffnet die korrekten Kesselchips-Details. Demo-Kauf reduziert Bestand 4 → 3; genau eine Warnung und alle sechs Workflow-Schritte erfolgreich.
+- Öffentlicher Testfehler: Mineralwasser 15 → 14, Abschluss fehlgeschlagen. Retry erfolgreich mit Versuch 2 und unverändertem Bestand 14.
+
+- Öffentliche Desktopansicht und mobile Breite 390 × 844: kein horizontaler Überlauf, keine Browser-Konsolenfehler oder Warnungen. Drei weitere Kundenkäufe im öffentlichen Browser erfolgreich. Demo-Website und Technologie-Topics gespeichert; Repository im GitHub-Profil angeheftet.

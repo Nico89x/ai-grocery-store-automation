@@ -1,18 +1,21 @@
 # Veröffentlichung und Bewerbung
 
-## Aktueller Stand
+## Öffentlich veröffentlicht
 
-Die Anwendung ist eine lokal geprüfte Portfolio-Demo. Ein öffentliches GitHub-Repository und eine öffentliche Demo-URL sind noch nicht eingerichtet. Der lokale Link `127.0.0.1` ist für Arbeitgeber nicht erreichbar. Die enthaltenen GitHub-Workflows sind vorbereitet; sie wurden noch nicht auf GitHub ausgeführt.
+- Repository: [Nico89x/ai-grocery-store-automation](https://github.com/Nico89x/ai-grocery-store-automation)
+- Live-Demo: [AI Grocery Store Automation](https://nico89x.github.io/ai-grocery-store-automation/)
+- [Tests und Produktionsbuild](https://github.com/Nico89x/ai-grocery-store-automation/actions/runs/37738794156) und [Pages-Veröffentlichung](https://github.com/Nico89x/ai-grocery-store-automation/actions/runs/37738794197) am 8. Oktober 2026 erfolgreich.
+- Die öffentliche Version wurde im Browser geprüft: direkter 3D-Produktklick, Chips-Bestand 4 → 3, eine Lagerwarnung, sechs erfolgreiche Events sowie Wasser-Fehler und Retry ohne zweiten Abzug.
 
-## In dieser Reihenfolge veröffentlichen
+Diese beiden Links können in Bewerbungen verwendet werden. Für die Demo ist keine Anmeldung erforderlich. Alle Abläufe sind ausdrücklich simuliert.
 
-1. Auf deinem GitHub-Konto ein öffentliches Repository `ai-grocery-store-automation` erstellen. Den vollständigen Quellcode aus dem Download entpacken und hochladen, einschließlich `.github`, `docs` und `.gitignore`. `node_modules`, `work`, `dist` und `.env.local` werden nicht eingecheckt. Keine erfundene Commit-Historie: erste Version und spätere Änderungen ehrlich dokumentieren.
-2. Den `main`-Branch verwenden. Die Aktion **Tests and production build** prüft Lockfile-Installation, zwölf Tests, TypeScript und Produktionsbuild bei Pushes und Pull Requests.
-3. Unter **Settings → Pages → Source** „GitHub Actions“ auswählen. Unter **Settings → Secrets and variables → Actions → Variables** die Repository-Variable `ENABLE_PAGES` mit dem Wert `true` anlegen. Dann **Publish portfolio demo** manuell starten. Die öffentliche URL entsteht erst bei erfolgreicher Veröffentlichung. Ohne diese Freigabe überspringt der Workflow die Veröffentlichung.
-4. Die tatsächliche Demo-URL in die Repository-Beschreibung unter „Website“, oben in die README und in dein Bewerbungsportfolio eintragen. Repository im GitHub-Profil anheften. Passende Topics: `react`, `typescript`, `threejs`, `automation`, `portfolio`, `inventory-management`.
-5. Den öffentlichen Link im privaten Browserfenster testen, besonders „1 × Kesselchips kaufen“, Warnung und Retry. Auch die Screenshots im Repository müssen sichtbar sein.
+## Spätere Änderungen veröffentlichen
 
-Offizielle Anleitungen: [GitHub Pages mit Workflows](https://docs.github.com/en/pages/getting-started-with-github-pages/using-custom-workflows-with-github-pages) und [Vite veröffentlichen](https://vite.dev/guide/static-deploy.html). Der Build verwendet relative Asset-URLs für Repository-Unterpfade; Hash-Routen vermeiden Server-Routing-Konfiguration.
+1. Änderungen an Quellcode und Dokumentation im main-Branch speichern; keine Zugangsdaten, node_modules, work oder dist einchecken.
+2. **Tests and production build** und **Publish portfolio demo** unter Actions prüfen. Beide Workflows installieren aus dem Lockfile und führen zwölf Tests sowie den TypeScript-/Produktionsbuild aus.
+3. Pages verwendet **GitHub Actions** als Quelle. Die Repository-Variable **ENABLE_PAGES=true** ist gesetzt. Der Pages-Workflow veröffentlicht nur einen erfolgreichen Build.
+4. Die Live-Demo im Browser nachprüfen, besonders Warnungsfall und Retry. Der lokale Link 127.0.0.1 funktioniert ausschließlich auf dem eigenen Computer.
+5. Entwicklung und Prüfergebnisse ehrlich dokumentieren; keine erfundene Commit-Historie, Produktionskunden oder Leistungskennzahlen.
 
 ## Kurzbeschreibung für das Repository
 

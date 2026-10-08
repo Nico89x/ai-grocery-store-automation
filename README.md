@@ -4,7 +4,9 @@ Eine interaktive Portfolio-Demo, die einen 3D-Mini-Supermarkt mit einem sichtbar
 
 **For reviewers:** An interactive 3D store backed by a local event-driven order processor. Manual purchases and animated customers share the same inventory transaction, low-stock detection and observable workflow. A failed completion can be retried without charging inventory twice. React, TypeScript, React Three Fiber; no credentials required. This is a portfolio simulation, not a production shop or an AI service.
 
-**Repository:** [Nico89x/ai-grocery-store-automation](https://github.com/Nico89x/ai-grocery-store-automation). Lokal geprüft; die erste GitHub-Pages-Veröffentlichung wird eingerichtet. [Veröffentlichung und Bewerbungspräsentation](PORTFOLIO.md).
+**Live-Demo:** [AI Grocery Store Automation](https://nico89x.github.io/ai-grocery-store-automation/) · **Code:** [Nico89x/ai-grocery-store-automation](https://github.com/Nico89x/ai-grocery-store-automation)
+
+**Veröffentlicht am 8. Oktober 2026.** [Tests und Produktionsbuild](https://github.com/Nico89x/ai-grocery-store-automation/actions/runs/37738794156) sowie [GitHub-Pages-Deployment](https://github.com/Nico89x/ai-grocery-store-automation/actions/runs/37738794197) erfolgreich. [Veröffentlichung und Bewerbungspräsentation](PORTFOLIO.md).
 
 ![Außenansicht des modellierten Ladens](docs/store-exterior.png)
 ![Innenraum mit KI-Roboter, Regalen und Produkten](docs/store-interior.png)
@@ -13,7 +15,7 @@ Eine interaktive Portfolio-Demo, die einen 3D-Mini-Supermarkt mit einem sichtbar
 
 ## Starten
 
-Voraussetzung: Node.js **22 oder neuer** und npm. Alternativ funktioniert pnpm mit dem enthaltenen Lockfile.
+Voraussetzung: Node.js **22.12 oder neuer** (geprüft mit Node 24) und npm. Alternativ funktioniert pnpm mit dem enthaltenen Lockfile.
 
 ```bash
 npm install
@@ -160,7 +162,7 @@ Beispielpayload:
 
 Automatische Tests prüfen Cent-Berechnung, Mengenbegrenzung, sechs erfolgreiche Events inklusive Chips-Warnung, Retry nach Buchung ohne doppelten Abzug, Konkurrenz ohne negative/teilweise Bestände, bedingte Warnungen, automatische Kundenbestellungen, Reset, lokalen Betrieb ohne Requests, Webhook-Ausfall und erfolgreichen Payload.
 
-Aktuell **12 Tests**: neun für Bestellverarbeitung und Adapter, zwei für Laufwege und Gehgeschwindigkeit, einer gegen ungültige Koordinaten an den verformten Verpackungsrändern. Die GitHub-Dateien unter `.github/workflows/` führen Installation mit festem Lockfile, Tests und Build aus. Der Pages-Workflow ist standardmäßig deaktiviert, bis die Veröffentlichung bewusst eingerichtet wird; siehe `PORTFOLIO.md`.
+Aktuell **12 Tests**: neun für Bestellverarbeitung und Adapter, zwei für Laufwege und Gehgeschwindigkeit, einer gegen ungültige Koordinaten an den verformten Verpackungsrändern. Die GitHub-Dateien unter `.github/workflows/` führen Installation mit festem Lockfile, Tests und Build aus. Im veröffentlichten Repository ist GitHub Pages eingerichtet und `ENABLE_PAGES=true` aktiviert. Der Workflow veröffentlicht erfolgreiche Builds des Hauptbranches; siehe `PORTFOLIO.md`.
 
 Manueller Prüflauf: Startansicht → 3D-Auswahl → Produktdetails → Warenkorb → +/−/Entfernen → Demo-Kauf → Bestand 4→3 → Warnung → sechs erfolgreiche Events. Zusätzlich Fehler/Retry, Kundenkäufe bei 4×, Kameraansichten, Schnellfragen und mobile Dialoge prüfen. Ein echter n8n-Endpunkt gehört nicht zum Lieferumfang; der Adapter wird mit einem simulierten Transport getestet.
 
