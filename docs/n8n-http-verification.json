@@ -1,0 +1,33 @@
+{
+  "verifiedAt": "2026-10-08T07:42:53.624Z",
+  "receipt": {
+    "schemaVersion": 1,
+    "demo": true,
+    "accepted": true,
+    "processor": "n8n",
+    "executionId": "279",
+    "idempotencyKey": "1791445372967:DEMO-001",
+    "orderId": "DEMO-001",
+    "receivedAt": "2026-10-08T07:42:53.271Z",
+    "totalCents": 249,
+    "notifications": [
+      {
+        "productId": "chips",
+        "channel": "demo-log",
+        "simulated": true,
+        "description": "Niedrigbestandswarnung als Testdatensatz; keine E-Mail und keine Slack-Nachricht."
+      }
+    ],
+    "description": "Demo-Payload validiert; lokale Buchung bleibt maßgeblich."
+  },
+  "invalid": [
+    {
+      "status": 400,
+      "description": "Nur Demo-Ereignisse mit Schema 1 erlaubt."
+    },
+    {
+      "status": 400,
+      "description": "Gesamtsumme stimmt nicht."
+    }
+  ]
+}
