@@ -1,0 +1,24 @@
+import type { Order } from '../domain/simulation';
+
+export interface WebhookResult { mode:'local'|'connected'; description:string }
+export function orderPayload(order:Order,session:number) {
+  return {schemaVersion:1, demo:true, event:'order.completed', idempotencyKey:`${session}:${order.id}`, order:{id:order.id,source:order.source,createdAt:order.createdAt,totalCents:order.total,items:order.lines},lowStockProducts:order.warnings};
+}
+
+/** Einziger externer Erweiterungspunkt. Die lokale Buchung ist bereits abgeschlossen.
+ * Kein Geheimnis im Browser: für produktive Integrationen einen eigenen Server verwenden.
+ */
+export async function deliverOrder(order:Order,session:number,url='',signal?:AbortSignal,transport:typeof fetch=fetch):Promise<WebhookResult> {
+  if(!url.trim())return {mode:'local',description:'Lokale Demo-Verarbeitung · kein externer Dienst konfiguriert.'};
+  try {
+    const parsed=new URL(url);
+    if(parsed.protocol!=='https:' && !(parsed.protocol==='http:' && ['localhost','127.0.0.1'].includes(parsed.hostname)))throw new Error('HTTPS-URL erforderlich');
+    const timeout=AbortSignal.timeout(5000);
+    const response=await transport(parsed.toString(),{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(orderPayload(order,session)),signal:signal?AbortSignal.any([signal,timeout]):timeout});
+    if(!response.ok)throw new Error(`HTTP ${response.status}`);
+    return {mode:'connected',description:'Webhook verbunden · Demo-Ereignis erfolgreich übertragen.'};
+  }catch(error) {
+    if(signal?.aborted)throw error;
+    return {mode:'local',description:'Webhook nicht erreichbar. Kauf vollständig lokal verarbeitet; keine Rücknahme der Bestandsbuchung.'};
+  }
+}
