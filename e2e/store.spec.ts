@@ -72,7 +72,12 @@ test('Animierte Kund:innen erzeugen eine abgeschlossene Bestellung', async ({ pa
   await page.getByRole('button', { name: 'Kund:innen pausieren', exact: true }).click();
   await expect(page.locator('.success-note')).toBeVisible({ timeout: 90000 });
   await expect(page.locator('.order-result')).toContainText('Animierte Demo-Kund:in');
-  await expect(inventory(page, 'Orangensaft')).toHaveText('9');
+  await expect(page.locator('.event-timeline .event').filter({ hasText: 'inventory.updated' })).toContainText('Orangensaft: −1, jetzt 9 Stück');
+  // Other customers can buy juice while slow software rendering paints the UI.
+  // The pinned receipt proves the first decrement; live stock includes all orders.
+  const remaining=Number(await inventory(page, 'Orangensaft').textContent());
+  expect(remaining).toBeGreaterThanOrEqual(0);
+  expect(remaining).toBeLessThanOrEqual(9);
 });
 test('Responsiv, Außen/Innenansicht, zugänglicher Dialog und Reset', async ({ page }) => {
   await page.getByRole('button', { name: 'Laden betreten', exact: true }).click();
