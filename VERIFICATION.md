@@ -77,3 +77,9 @@ Die 3D-Demo verwendet selbst erstellte Geometrie, Etiketten und Materialtexturen
 - Webhook-Ausfall und ungültige Empfangsbelege sind in Adaptertests abgesichert. Die öffentliche Demo startet weiterhin ohne externe URL.
 
 Die alten Prüfeinträge dokumentieren den damaligen Stand; die Zahlen in diesem Abschnitt gelten für das erweiterte Projekt.
+
+## Nachprüfung auf dem GitHub-Testrechner
+
+Der erste Linux-CI-Lauf bestand 14 Logiktests und den Produktionsbuild, aber nur neun der zwölf Browserfälle. Kamerafahrten addierten pro Bild höchstens 50 ms, und der Simulator begrenzte verzögerte Takte auf eine Sekunde. Bei langsamer Software-Grafik wurde die Demo dadurch langsamer als die Uhr.
+
+Kamerafahrten nutzen jetzt eine monotone Zeitmessung; Simulationstakte holen bis zu zehn Sekunden in geordneten 250-ms-Schritten nach. Unsichtbare Tabs pausieren die Uhr. Tastatur- und Touchbewegungen fordern auch bei pausierten Kund:innen weitere Bilder an. Ein zusätzlicher Regressionstest vergleicht verzögerte Takte mit regulären Taktfolgen einschließlich Kundenbestellungen und Lagerbuchungen. **15 Logiktests** und der Produktionsbuild bestehen lokal.
