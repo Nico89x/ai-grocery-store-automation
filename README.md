@@ -8,6 +8,8 @@ Eine interaktive Portfolio-Demo, die einen 3D-Mini-Supermarkt mit einem sichtbar
 
 **Veröffentlicht am 8. Oktober 2026.** [Tests und Produktionsbuild](https://github.com/Nico89x/ai-grocery-store-automation/actions/runs/37738794156) sowie [GitHub-Pages-Deployment](https://github.com/Nico89x/ai-grocery-store-automation/actions/runs/37738794197) erfolgreich. [Veröffentlichung und Bewerbungspräsentation](PORTFOLIO.md).
 
+[Projektstudie und Rolle](docs/CASE_STUDY.md) · [49-Sekunden-Demo](https://nico89x.github.io/ai-grocery-store-automation/demo.mp4) · [Geprüfter n8n-Testworkflow](automation/README.md)
+
 ![Außenansicht des modellierten Ladens](docs/store-exterior.png)
 ![Innenraum mit KI-Roboter, Regalen und Produkten](docs/store-interior.png)
 
@@ -25,10 +27,20 @@ npm run dev
 Die im Terminal ausgegebene lokale URL öffnen, standardmäßig `http://127.0.0.1:5173/`.
 
 ```bash
-npm test          # Logik- und Adaptertests
+npm test          # 14 Logik-/Adapter-/Geometrietests
 npm run build    # TypeScript prüfen und Produktionsbuild erstellen
 npm run preview  # Produktionsbuild lokal anzeigen, standardmäßig Port 4173
 ```
+
+Für die automatischen Browsertests zusätzlich:
+
+```bash
+npx playwright install chromium
+npm run build
+npm run test:e2e
+```
+
+Die zwölf Browserfälle prüfen Desktop und Mobilgeräte; der Testserver startet automatisch auf Port 4190. Die Tests klicken die echte 3D-Packung, prüfen Mengen/Preise/Entfernen, Lagerwarnung, sechs Ereignisse, Fehler/Retry, Kundenbestellungen, Dialoge und Reset. Screenshots und Traces entstehen bei Fehlern.
 
 Mit pnpm: `pnpm install`, `pnpm dev`, `pnpm test`, `pnpm build`, `pnpm preview`. Das enthaltene `pnpm-workspace.yaml` erlaubt ausschließlich den notwendigen esbuild-Installationsschritt.
 
@@ -135,9 +147,7 @@ Optional `.env.example` nach `.env.local` kopieren:
 VITE_AUTOMATION_WEBHOOK_URL=https://dein-testserver.example/webhook/grocery-demo
 ```
 
-Danach Vite neu starten bzw. den Build neu erstellen. n8n: einen POST-Webhook einrichten, JSON entgegennehmen und nach `idempotencyKey` deduplizieren. Der Browser benötigt eine passende CORS-Freigabe des Testendpunkts. Erst bei erfolgreicher HTTP-Antwort zeigt das Dashboard **Webhook verbunden**. Timeout nach fünf Sekunden, HTTP-Fehler oder eine ungültige URL führen zum lokalen Fallback; die bereits abgeschlossene Lagerbuchung bleibt korrekt.
-
-Beispielpayload:
+Danach Vite neu starten bzw. den Build neu erstellen. Alternativ die URL unter **Lager im Blick → n8n-Testverbindung konfigurieren** für den nächsten Kauf aktivieren. Der [importierbare n8n-Workflow](automation/n8n-workflow.json) und die [Anschlussanleitung](automation/README.md) sind enthalten. Der echte HTTP-Empfang wurde geprüft (Ausführungen 277 und 279), außerdem ein Kauf direkt aus der Browser-App (278). Der Empfänger prüft Demo-Kennzeichnung, Artikel, Mengen, Preise und Summe und liefert eine n8n-Ausführungs-ID. Erst ein passender JSON-Empfangsbeleg aktiviert **Webhook verbunden**. Ungültige Antworten, Timeout oder Netzfehler behalten den lokalen Ablauf bei. Die öffentliche Demo startet ohne Endpunkt; die geprüfte n8n-Instanz ist lokal. Beispielpayload:
 
 ```json
 {
@@ -162,13 +172,19 @@ Beispielpayload:
 
 Automatische Tests prüfen Cent-Berechnung, Mengenbegrenzung, sechs erfolgreiche Events inklusive Chips-Warnung, Retry nach Buchung ohne doppelten Abzug, Konkurrenz ohne negative/teilweise Bestände, bedingte Warnungen, automatische Kundenbestellungen, Reset, lokalen Betrieb ohne Requests, Webhook-Ausfall und erfolgreichen Payload.
 
-Aktuell **12 Tests**: neun für Bestellverarbeitung und Adapter, zwei für Laufwege und Gehgeschwindigkeit, einer gegen ungültige Koordinaten an den verformten Verpackungsrändern. Die GitHub-Dateien unter `.github/workflows/` führen Installation mit festem Lockfile, Tests und Build aus. Im veröffentlichten Repository ist GitHub Pages eingerichtet und `ENABLE_PAGES=true` aktiviert. Der Workflow veröffentlicht erfolgreiche Builds des Hauptbranches; siehe `PORTFOLIO.md`.
+Aktuell **14 Logiktests**: zehn für Bestellverarbeitung und Adapter, zwei für Laufwege und Gehgeschwindigkeit, zwei für gültige Geometrie/Klickflächen. Dazu bestehen **12 Playwright-Browserfälle** für Desktop und mobile Chromium-Ansicht. Die GitHub-Dateien unter `.github/workflows/` führen Installation mit festem Lockfile, Logiktests, Build und die zwölf Browserfälle aus. Im veröffentlichten Repository ist GitHub Pages eingerichtet und `ENABLE_PAGES=true` aktiviert. Der Workflow veröffentlicht erfolgreiche Builds des Hauptbranches; siehe `PORTFOLIO.md`.
 
-Manueller Prüflauf: Startansicht → 3D-Auswahl → Produktdetails → Warenkorb → +/−/Entfernen → Demo-Kauf → Bestand 4→3 → Warnung → sechs erfolgreiche Events. Zusätzlich Fehler/Retry, Kundenkäufe bei 4×, Kameraansichten, Schnellfragen und mobile Dialoge prüfen. Ein echter n8n-Endpunkt gehört nicht zum Lieferumfang; der Adapter wird mit einem simulierten Transport getestet.
+Manueller Prüflauf: Startansicht → 3D-Auswahl → Produktdetails → Warenkorb → +/−/Entfernen → Demo-Kauf → Bestand 4→3 → Warnung → sechs erfolgreiche Events. Zusätzlich Fehler/Retry, Kundenkäufe bei 4×, Kameraansichten, Schnellfragen und mobile Dialoge prüfen. Ein echter lokaler n8n-Testworkflow wurde aktiviert und per HTTP sowie Browser-App geprüft; der JSON-Export ist enthalten. Die öffentliche Demo benötigt diesen Dienst nicht.
 
 ## Sinnvolle nächste Erweiterungen
 
-- Eigener n8n-Testworkflow mit lokaler Persistenz und serverseitiger Idempotenz.
+- Backend mit dauerhafter Persistenz und serverseitiger Idempotenz.
 - Simulierte Nachbestellung und Wareneingang als zusätzliche Events.
 - Exportierbare Demo-Reports, weitere Kundenstrategien und Szenarien.
 - Feinere Geometrie, eigene Materialtexturen und adaptive Grafikqualität für schwächere Geräte.
+
+## Rolle, Video und visuelle Qualität
+
+Nico89x definiert Konzept und Anforderungen; Implementierung, eigene 3D-Geometrie, Dokumentation und Prüfungen wurden mit KI-Unterstützung erstellt. [Die Projektstudie](docs/CASE_STUDY.md) beschreibt Entscheidungen und Grenzen ohne erfundene Geschäftsergebnisse. [Die echte Demo-Aufnahme](docs/DEMO_VIDEO.md) ist 49,72 Sekunden lang, ohne Ton, mit deutschen Untertiteln und ohne nachträglich eingesetzte Erfolgswerte.
+
+Die Figuren haben natürlichere Proportionen, einen geformten Oberkörper, modellierte Gesichtszüge und Stoffstruktur. Obst besitzt feinere Formgebung. Der Bildwinkel berücksichtigt schmale Mobilansichten. Bei pausierten Kund:innen wird die Szene nur bei Bedarf neu gerendert; Kamerafahrten bleiben flüssig. Die Darstellung bleibt stilisierte Echtzeitgrafik.

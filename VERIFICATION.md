@@ -66,3 +66,14 @@ Die 3D-Demo verwendet selbst erstellte Geometrie, Etiketten und Materialtexturen
 - Öffentlicher Testfehler: Mineralwasser 15 → 14, Abschluss fehlgeschlagen. Retry erfolgreich mit Versuch 2 und unverändertem Bestand 14.
 
 - Öffentliche Desktopansicht und mobile Breite 390 × 844: kein horizontaler Überlauf, keine Browser-Konsolenfehler oder Warnungen. Drei weitere Kundenkäufe im öffentlichen Browser erfolgreich. Demo-Website und Technologie-Topics gespeichert; Repository im GitHub-Profil angeheftet.
+
+## Ergänzende Prüfung am 8. Oktober 2026
+
+- **14 Logik-/Geometrietests bestanden**, TypeScript und Vite-Produktionsbuild erfolgreich.
+- **12 von 12 Playwright-Browserfällen bestanden**, finaler Prüflauf 1,7 Minuten. Desktop 1440 × 1000 und mobile Pixel-7-Ansicht: Warenkorbmengen, Centpreise, Entfernen; Chips 4 → 3 mit einer Warnung und sechs Events; direkter Raycaster-Klick auf die Chips-Packung; Wasserfehler und Retry bei unverändert 14; automatische Kundenbestellung; Außen/Innenkamera, Escape, kein horizontaler Overflow und Reset. Alle Fälle kontrollieren unbehandelte JavaScript-Fehler.
+- Der Prüflauf deckte einen überlagerten Fehlerschalter und einen zu engen mobilen Kamerabildwinkel auf. Beides wurde korrigiert; der komplette neue Lauf besteht. Pausierte Szenen rendern bei Bedarf.
+- **n8n real geprüft:** Workflow 587gRdtCgS3sm9ln erstellt und aktiviert. Gepinnter Funktionstest 276; echter HTTP-Empfang 277; Demo-Kauf aus dem Browser 278; weiterer HTTP-Prüflauf 279. Zwei ungültige Ereignisse (kein Demo-Flag, falsche Summe) erhalten HTTP 400. Belege: [JSON](docs/n8n-http-verification.json), [Browseransicht](docs/n8n-connected.png). Keine echten Nachrichten, keine zweite Lagerbuchung.
+- Echte Aufnahme: 1440 × 1000, 25 fps, H.264/Faststart, 49,72 Sekunden, 2.241.150 Bytes, ohne Ton. Deutsche Untertitel und ein Poster sind enthalten. Die Ladephase wurde am Anfang um sieben Sekunden gekürzt. Die Aufnahme zeigt echte UI-Zustände.
+- Webhook-Ausfall und ungültige Empfangsbelege sind in Adaptertests abgesichert. Die öffentliche Demo startet weiterhin ohne externe URL.
+
+Die alten Prüfeinträge dokumentieren den damaligen Stand; die Zahlen in diesem Abschnitt gelten für das erweiterte Projekt.
