@@ -53,8 +53,14 @@ describe('Webhook mit lokalem Fallback',()=>{
     expect((await deliverOrder(order,1,'https://example.test/webhook',undefined,transport)).mode).toBe('local');
   });
   it('liefert einen demo-markierten Payload mit stabilem Idempotenzschlüssel',async()=>{
-    const transport=vi.fn().mockResolvedValue({ok:true});
+    const transport=vi.fn().mockResolvedValue({ok:true,json:async()=>({schemaVersion:1,demo:true,accepted:true,processor:'n8n',executionId:'277',idempotencyKey:'1:DEMO-001',orderId:'DEMO-001',totalCents:249,receivedAt:'2026-10-08T07:18:08.366Z'})});
     expect((await deliverOrder(order,1,'https://example.test/webhook',undefined,transport)).mode).toBe('connected');
     const payload=orderPayload(order,1);expect(payload.demo).toBe(true);expect(payload.idempotencyKey).toBe('1:DEMO-001');expect(payload.order.totalCents).toBe(249);
+  });
+  it('wertet eine leere oder fremde 200-Antwort nicht als bestätigten Empfang',async()=>{
+    for(const receipt of [{}, {accepted:true,demo:true,idempotencyKey:'wrong'}]) {
+      const transport=vi.fn().mockResolvedValue({ok:true,json:async()=>receipt});
+      expect((await deliverOrder(order,1,'https://example.test/webhook',undefined,transport)).mode).toBe('local');
+    }
   });
 });
