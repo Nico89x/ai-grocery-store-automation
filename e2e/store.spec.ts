@@ -64,9 +64,12 @@ test('Fehler nach Buchung und Retry ohne zweiten Bestandsabzug', async ({ page }
 });
 test('Animierte Kund:innen erzeugen eine abgeschlossene Bestellung', async ({ page }) => {
   // Software WebGL in Linux CI needs time to paint customer geometry.
-  // Only the wait budget changes; the same real customer flow is asserted.
+  // Pin the first real customer order instead of chasing the live latest order.
   test.setTimeout(180000);
   await page.getByRole('button', { name: 'Kund:innen starten', exact: true }).click();
+  await expect(page.getByLabel('Bestellung auswählen', { exact: true })).toBeVisible({ timeout: 90000 });
+  await page.getByLabel('Bestellung auswählen', { exact: true }).selectOption('DEMO-001');
+  await page.getByRole('button', { name: 'Kund:innen pausieren', exact: true }).click();
   await expect(page.locator('.success-note')).toBeVisible({ timeout: 90000 });
   await expect(page.locator('.order-result')).toContainText('Animierte Demo-Kund:in');
   await expect(inventory(page, 'Orangensaft')).toHaveText('9');
