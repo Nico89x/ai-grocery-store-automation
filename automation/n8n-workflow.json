@@ -1,0 +1,145 @@
+{
+  "name": "AI Grocery Store – Demo Webhook",
+  "nodes": [
+    {
+      "id": "f5fa207a-d018-4e67-b6f4-b38daf6a8826",
+      "name": "Demo-Ereignis empfangen",
+      "type": "n8n-nodes-base.webhook",
+      "typeVersion": 2.1,
+      "position": [
+        0,
+        0
+      ],
+      "parameters": {
+        "httpMethod": "POST",
+        "path": "ai-grocery-portfolio-demo",
+        "authentication": "none",
+        "responseMode": "responseNode",
+        "options": {
+          "allowedOrigins": "https://nico89x.github.io,http://127.0.0.1:4173,http://127.0.0.1:4190"
+        }
+      },
+      "webhookId": "0feda24b-2cf9-4847-bf6a-09a24196211c"
+    },
+    {
+      "id": "40347800-7338-4a56-a597-33b4513c35fc",
+      "name": "Payload und Preise prüfen",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        224,
+        0
+      ],
+      "parameters": {
+        "mode": "runOnceForAllItems",
+        "language": "javaScript",
+        "jsCode": "const body = $json.body ?? $json;\nconst catalogue = {'chips':249,'paprika':229,'chocolate':219,'milk-chocolate':199,'water':89,'juice':189,'soda':149,'apple':159,'banana':139,'bread':349,'croissant':129};\nconst isInt = v => Number.isSafeInteger(v);\nconst items = body.order?.items;\nlet reason = '';\nif (body.schemaVersion !== 1 || body.demo !== true || body.event !== 'order.completed') reason = 'Nur Demo-Ereignisse mit Schema 1 erlaubt.';\nelse if (typeof body.idempotencyKey !== 'string' || !/^[a-zA-Z0-9:-]{1,120}$/.test(body.idempotencyKey)) reason = 'Ungültiger Ereignisschlüssel.';\nelse if (!/^DEMO-\\d{3,6}$/.test(body.order?.id ?? '') || !['manual','customer'].includes(body.order?.source)) reason = 'Ungültige Demo-Bestellung.';\nelse if (!Array.isArray(items) || items.length < 1 || items.length > 11 || items.some(i => !i || typeof i !== 'object') || new Set(items.map(i => i.productId)).size !== items.length) reason = 'Ungültige Positionen.';\nelse if (items.some(i => !Object.hasOwn(catalogue,i.productId) || !isInt(i.quantity) || i.quantity < 1 || i.quantity > 100 || i.unitPrice !== catalogue[i.productId])) reason = 'Mengen oder Beispielpreise stimmen nicht.';\nelse if (!isInt(body.order.totalCents) || body.order.totalCents !== items.reduce((sum,i) => sum + i.quantity * i.unitPrice,0)) reason = 'Gesamtsumme stimmt nicht.';\nelse if (!Array.isArray(body.lowStockProducts) || body.lowStockProducts.length > 11 || body.lowStockProducts.some(id => !Object.hasOwn(catalogue,id) || !items.some(i => i.productId === id))) reason = 'Ungültige Warnungen.';\nelse if (!Number.isFinite(Date.parse(body.order.createdAt))) reason = 'Ungültiger Zeitstempel.';\nconst accepted = !reason;\nreturn [{json:{accepted, demo:true, schemaVersion:1, idempotencyKey:accepted?body.idempotencyKey:'rejected',orderId:accepted?body.order.id:'rejected',totalCents:accepted?body.order.totalCents:0,warningProducts:accepted?body.lowStockProducts:[],description:reason||'Demo-Payload validiert; lokale Buchung bleibt maßgeblich.'}}];"
+      }
+    },
+    {
+      "id": "501fe7c4-2763-4112-9532-1a9706661d47",
+      "name": "Warnungen als Demo-Datensätze",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        448,
+        0
+      ],
+      "parameters": {
+        "mode": "runOnceForAllItems",
+        "language": "javaScript",
+        "jsCode": "const value = $json;\nreturn [{json:{...value, notifications:value.accepted?value.warningProducts.map(productId=>({productId,channel:'demo-log',simulated:true,description:'Niedrigbestandswarnung als Testdatensatz; keine E-Mail und keine Slack-Nachricht.'})):[]}}];"
+      }
+    },
+    {
+      "id": "8477c6a3-3738-41e3-8841-d6dc39f705af",
+      "name": "Ausführungsbeleg erzeugen",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        672,
+        0
+      ],
+      "parameters": {
+        "mode": "runOnceForAllItems",
+        "language": "javaScript",
+        "jsCode": "const value = $json;\nreturn [{json:{schemaVersion:1,demo:true,accepted:value.accepted,processor:'n8n',executionId:String($execution.id),idempotencyKey:value.idempotencyKey,orderId:value.orderId,receivedAt:new Date().toISOString(),totalCents:value.totalCents,notifications:value.notifications,description:value.description}}];"
+      }
+    },
+    {
+      "id": "14ad6840-d6c4-4718-986b-9bc51f386561",
+      "name": "Empfang bestätigen",
+      "type": "n8n-nodes-base.respondToWebhook",
+      "typeVersion": 1.5,
+      "position": [
+        896,
+        0
+      ],
+      "parameters": {
+        "respondWith": "json",
+        "responseBody": "={{ $json }}",
+        "options": {
+          "responseCode": "={{ $json.accepted ? 200 : 400 }}",
+          "responseHeaders": {
+            "entries": [
+              {
+                "name": "Cache-Control",
+                "value": "no-store"
+              }
+            ]
+          }
+        }
+      }
+    }
+  ],
+  "connections": {
+    "Demo-Ereignis empfangen": {
+      "main": [
+        [
+          {
+            "node": "Payload und Preise prüfen",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Payload und Preise prüfen": {
+      "main": [
+        [
+          {
+            "node": "Warnungen als Demo-Datensätze",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Warnungen als Demo-Datensätze": {
+      "main": [
+        [
+          {
+            "node": "Ausführungsbeleg erzeugen",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Ausführungsbeleg erzeugen": {
+      "main": [
+        [
+          {
+            "node": "Empfang bestätigen",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "active": false
+}

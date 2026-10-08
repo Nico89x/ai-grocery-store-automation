@@ -118,32 +118,35 @@ function Room() {
   </group>;
 }
 function CameraController({view,walk,onMoving}:{view:number;walk:string|null;onMoving:(value:boolean)=>void}) {
-  const controls=useRef<OrbitControlsImpl>(null),keys=useRef(new Set<string>());const {camera}=useThree();
-  const firstView=useRef(true),transition=useRef<{from:THREE.Vector3;to:THREE.Vector3;fromTarget:THREE.Vector3;toTarget:THREE.Vector3;elapsed:number}|null>(null);
+  const controls=useRef<OrbitControlsImpl>(null),keys=useRef(new Set<string>());const {camera,invalidate,size}=useThree();
+  const firstView=useRef(true),transition=useRef<{from:THREE.Vector3;to:THREE.Vector3;fromTarget:THREE.Vector3;toTarget:THREE.Vector3;startedAt:number}|null>(null);
   const outside=view%4===3;
   useEffect(()=>{
-    const onDown=(e:KeyboardEvent)=>{if((e.target as HTMLElement).closest('input,textarea,select,dialog,button'))return;if(['w','a','s','d','ArrowUp','ArrowDown','ArrowLeft','ArrowRight'].includes(e.key)){keys.current.add(e.key);e.preventDefault();}};
+    const onDown=(e:KeyboardEvent)=>{if((e.target as HTMLElement).closest('input,textarea,select,dialog,button'))return;if(['w','a','s','d','ArrowUp','ArrowDown','ArrowLeft','ArrowRight'].includes(e.key)){keys.current.add(e.key);invalidate();e.preventDefault();}};
     const onUp=(e:KeyboardEvent)=>keys.current.delete(e.key),clear=()=>keys.current.clear();
     window.addEventListener('keydown',onDown);window.addEventListener('keyup',onUp);window.addEventListener('blur',clear);
     return()=>{window.removeEventListener('keydown',onDown);window.removeEventListener('keyup',onUp);window.removeEventListener('blur',clear);};
-  },[]);
+  },[invalidate]);
+  useEffect(()=>{invalidate();},[walk,invalidate]);
   useEffect(()=>{
     const c=controls.current;if(!c)return;
     const poses:V3[]=[[.5,3.4,8.8],[9,8,12],[.2,1.75,5.35],[8,5.6,17.5]];
-    if(camera instanceof THREE.PerspectiveCamera){camera.fov=view%4===2?62:49;camera.updateProjectionMatrix();}
+    if(camera instanceof THREE.PerspectiveCamera){camera.fov=(view%4===2?62:49)+(size.width/size.height<1.1?24:0);camera.updateProjectionMatrix();}
     // Restliche Orbit-Trägheit vor einem festen Ansichtswechsel vollständig auflösen.
     c.enableDamping=false;c.update();
     const to=new THREE.Vector3(...poses[view%4]),toTarget=outside?new THREE.Vector3(0,1.8,2.8):new THREE.Vector3(0,view%4===2?1.35:1,-1.1);
     if(firstView.current||window.matchMedia('(prefers-reduced-motion: reduce)').matches){camera.position.copy(to);c.target.copy(toTarget);c.update();c.enableDamping=true;firstView.current=false;transition.current=null;c.enabled=true;onMoving(false);}
-    else {transition.current={from:camera.position.clone(),to,fromTarget:c.target.clone(),toTarget,elapsed:0};c.enabled=false;onMoving(true);}
-  },[camera,view,onMoving]);
+    else {transition.current={from:camera.position.clone(),to,fromTarget:c.target.clone(),toTarget,startedAt:performance.now()};c.enabled=false;onMoving(true);}
+    invalidate();
+  },[camera,view,onMoving,invalidate,size.width,size.height]);
   useFrame((_,dt)=>{
     const c=controls.current;if(!c)return;
     const trip=transition.current;
-    if(trip){trip.elapsed+=Math.min(dt,.05);const t=THREE.MathUtils.smoothstep(trip.elapsed/.85,0,1);camera.position.lerpVectors(trip.from,trip.to,t);c.target.lerpVectors(trip.fromTarget,trip.toTarget,t);c.update();if(t===1){transition.current=null;c.enabled=true;c.enableDamping=true;onMoving(false);}return;}
+    if(trip){invalidate();const t=THREE.MathUtils.smoothstep((performance.now()-trip.startedAt)/850,0,1);camera.position.lerpVectors(trip.from,trip.to,t);c.target.lerpVectors(trip.fromTarget,trip.toTarget,t);c.update();if(t===1){transition.current=null;c.enabled=true;c.enableDamping=true;onMoving(false);}return;}
     const forward=(keys.current.has('w')||keys.current.has('ArrowUp')||walk==='forward'?1:0)-(keys.current.has('s')||keys.current.has('ArrowDown')||walk==='back'?1:0);
     const sideways=(keys.current.has('d')||keys.current.has('ArrowRight')||walk==='right'?1:0)-(keys.current.has('a')||keys.current.has('ArrowLeft')||walk==='left'?1:0);
     if(!forward&&!sideways)return;
+    invalidate();
     const dir=new THREE.Vector3();camera.getWorldDirection(dir);dir.y=0;dir.normalize();const side=new THREE.Vector3().crossVectors(dir,new THREE.Vector3(0,1,0));
     const movement=dir.multiplyScalar(forward).add(side.multiplyScalar(sideways)).multiplyScalar(Math.min(dt,.04)*3);
     const next=camera.position.clone().add(movement);
@@ -195,7 +198,7 @@ export default function StoreScene({state,onSelect}:{state:SimulationState;onSel
   return <div className="scene-wrap" tabIndex={0} aria-label="3D-Kamerasteuerung: WASD oder Pfeiltasten zum Bewegen" onContextMenu={e=>e.preventDefault()}>
     <SceneBoundary fallback={<div className="scene-fallback"><Icon name="store" size={40}/><h3>3D ist auf diesem Gerät nicht verfügbar.</h3><p>Nutze die Produktliste darunter. Warenkorb und Automation funktionieren vollständig weiter.</p></div>}>
       <Suspense fallback={<div className="scene-loading"><span className="spinner"/>3D-Laden wird vorbereitet …</div>}>
-        <Canvas aria-label="Interaktiver 3D-Laden: Außenansicht und anklickbare Produkte im Laden" shadows dpr={[1,1.5]} camera={{position:[8,5.6,17.5],fov:49,near:.1,far:90}} onCreated={({gl})=>{gl.toneMapping=THREE.ACESFilmicToneMapping;gl.toneMappingExposure=1.12;gl.shadowMap.type=THREE.PCFSoftShadowMap;}} gl={{antialias:true,alpha:false,powerPreference:'high-performance'}} fallback={<div className="scene-fallback" aria-hidden="true">WebGL ist nicht verfügbar. Bitte nutze die Produktliste.</div>}><MaterialLibrary><Content state={state} onSelect={onSelect} view={view} walk={walk} overlayRefs={overlayRefs} onEnter={()=>setView(2)} moving={moving} onMoving={setMoving}/></MaterialLibrary></Canvas>
+        <Canvas frameloop={state.running?'always':'demand'} aria-label="Interaktiver 3D-Laden: Außenansicht und anklickbare Produkte im Laden" shadows dpr={[1,1.5]} camera={{position:[8,5.6,17.5],fov:49,near:.1,far:90}} onCreated={({gl})=>{gl.toneMapping=THREE.ACESFilmicToneMapping;gl.toneMappingExposure=1.12;gl.shadowMap.type=THREE.PCFSoftShadowMap;}} gl={{antialias:true,alpha:false,powerPreference:'high-performance'}} fallback={<div className="scene-fallback" aria-hidden="true">WebGL ist nicht verfügbar. Bitte nutze die Produktliste.</div>}><MaterialLibrary><Content state={state} onSelect={onSelect} view={view} walk={walk} overlayRefs={overlayRefs} onEnter={()=>setView(2)} moving={moving} onMoving={setMoving}/></MaterialLibrary></Canvas>
       </Suspense>
     </SceneBoundary>
     <div className={`scene-overlays${moving?' camera-moving':''}${showLabels?'':' hide-product-labels'}`} aria-hidden={moving}>

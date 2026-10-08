@@ -163,10 +163,17 @@ export function reducer(previous:SimulationState,action:Action):SimulationState 
       }break;
     }
     case 'tick': {
-      const dt=Math.min(1000,Math.max(0,action.dt))*state.speed;
-      if(state.running) {state.elapsed+=dt/1000;advanceCustomers(state,dt,action.now);}
-      // Besucher-Pause unterbricht keinen bereits ausgelösten Kauf.
-      advanceWorkflow(state,dt,action.now);break;
+      // Slow renders must not slow simulated time. Catch up in bounded steps
+      // so customer phases, queued orders and inventory retain their order.
+      let remaining=Number.isFinite(action.dt)?Math.min(10000,Math.max(0,action.dt)):0;
+      while(remaining>0) {
+        const slice=Math.min(250,remaining),dt=slice*state.speed;remaining-=slice;
+        const now=action.now-remaining;
+        if(state.running) {state.elapsed+=dt/1000;advanceCustomers(state,dt,now);}
+        // Besucher-Pause unterbricht keinen bereits ausgelösten Kauf.
+        advanceWorkflow(state,dt,now);
+      }
+      break;
     }
     case 'running':state.running=action.value;break;
     case 'speed':state.speed=state.speed===1?4:1;break;

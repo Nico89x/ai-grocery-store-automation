@@ -1,0 +1,10 @@
+export function CaseStudy() {
+  return <section className="case-study" aria-label="Projektstudie und Demo-Video">
+    <p className="eyebrow">NICO89X / AUTOMATION PORTFOLIO</p>
+    <h2>Ein Einkauf, dessen Verarbeitung sichtbar bleibt.</h2>
+    <p>Die Herausforderung: Produktwahl, Warenkorb und Lagerbestand müssen auch bei Fehlern konsistent bleiben. Ein testbarer Zustandsprozessor verbindet die 3D-Szene mit einer Bestellqueue, einer einmaligen Lagerbuchung und nachvollziehbaren Ereignissen. Der optionale n8n-Testempfänger bestätigt echte HTTP-Demo-Ereignisse.</p>
+    <p className="fine">Nico89x definiert Konzept und Anforderungen. Code, Modelle, Dokumentation und Prüfung wurden mit KI-Unterstützung umgesetzt. Die Simulation belegt technische Abläufe; sie behauptet keine Produktionskunden oder Geschäftsergebnisse. NOA antwortet regelbasiert. Alle Daten sind Beispiele.</p>
+    <div className="case-study-links"><a className="button secondary" href="https://github.com/Nico89x/ai-grocery-store-automation" target="_blank" rel="noreferrer">Quellcode auf GitHub</a><a className="button secondary" href="https://github.com/Nico89x/ai-grocery-store-automation/blob/main/docs/CASE_STUDY.md" target="_blank" rel="noreferrer">Projektstudie und Prüfnachweise</a></div>
+    <details><summary>Kurze Demo-Aufnahme ansehen</summary><video controls preload="none" poster={`${import.meta.env.BASE_URL}demo-poster.png`} aria-label="Aufnahme der echten Portfolio-Demo: Produktwahl, Lagerwarnung, Retry und animierte Kund:innen"><source src={`${import.meta.env.BASE_URL}demo.mp4`} type="video/mp4"/><track default kind="captions" src={`${import.meta.env.BASE_URL}demo.vtt`} srcLang="de" label="Deutsch"/><p>Dein Browser unterstützt das Video nicht. <a href={`${import.meta.env.BASE_URL}demo.mp4`}>Demo-Aufnahme öffnen</a>.</p></video><p className="fine">Echte Bildschirmaufnahme der Anwendung, ohne Ton. Untertitel erklären die Schritte. Keine nachgestellten Bestellungen oder Erfolgswerte.</p></details>
+  </section>;
+}

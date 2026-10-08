@@ -1,4 +1,16 @@
-import { PlaneGeometry } from 'three';
+import { PlaneGeometry, SphereGeometry } from 'three';
+
+export function createAppleGeometry() {
+  const geometry=new SphereGeometry(.175,28,22),positions=geometry.attributes.position;
+  for(let i=0;i<positions.count;i++) {
+    const x=positions.getX(i),y=positions.getY(i),z=positions.getZ(i);
+    const angle=Math.atan2(z,x),height=y/.175;
+    const lobe=1+.035*Math.cos(angle*5)*(1-height*height);
+    const dimple=Math.max(0,(height-.65)/.35);
+    positions.setXYZ(i,x*lobe*(1+.06*height),y-.018*dimple*dimple,z*lobe*(1+.06*height));
+  }
+  geometry.computeVertexNormals();return geometry;
+}
 
 export function createBagGeometry() {
   const geometry=new PlaneGeometry(.43,.65,20,26),positions=geometry.attributes.position;

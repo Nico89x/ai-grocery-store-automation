@@ -1,0 +1,22 @@
+{
+  "schemaVersion": 1,
+  "demo": true,
+  "event": "order.completed",
+  "idempotencyKey": "20261008:DEMO-001",
+  "order": {
+    "id": "DEMO-001",
+    "source": "manual",
+    "createdAt": "2026-10-08T07:16:57.683Z",
+    "totalCents": 249,
+    "items": [
+      {
+        "productId": "chips",
+        "quantity": 1,
+        "unitPrice": 249
+      }
+    ]
+  },
+  "lowStockProducts": [
+    "chips"
+  ]
+}
