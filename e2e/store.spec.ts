@@ -63,8 +63,11 @@ test('Fehler nach Buchung und Retry ohne zweiten Bestandsabzug', async ({ page }
   await expect(page.locator('.order-result')).toContainText('Versuch 2');
 });
 test('Animierte Kund:innen erzeugen eine abgeschlossene Bestellung', async ({ page }) => {
+  // Software WebGL in Linux CI needs time to paint customer geometry.
+  // Only the wait budget changes; the same real customer flow is asserted.
+  test.setTimeout(180000);
   await page.getByRole('button', { name: 'Kund:innen starten', exact: true }).click();
-  await expect(page.locator('.success-note')).toBeVisible({ timeout: 45000 });
+  await expect(page.locator('.success-note')).toBeVisible({ timeout: 90000 });
   await expect(page.locator('.order-result')).toContainText('Animierte Demo-Kund:in');
   await expect(inventory(page, 'Orangensaft')).toHaveText('9');
 });
