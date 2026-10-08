@@ -27,7 +27,7 @@ npm run dev
 Die im Terminal ausgegebene lokale URL öffnen, standardmäßig `http://127.0.0.1:5173/`.
 
 ```bash
-npm test          # 14 Logik-/Adapter-/Geometrietests
+npm test          # 15 Logik-/Adapter-/Geometrietests
 npm run build    # TypeScript prüfen und Produktionsbuild erstellen
 npm run preview  # Produktionsbuild lokal anzeigen, standardmäßig Port 4173
 ```
@@ -40,7 +40,7 @@ npm run build
 npm run test:e2e
 ```
 
-Die zwölf Browserfälle prüfen Desktop und Mobilgeräte; der Testserver startet automatisch auf Port 4190. Die Tests klicken die echte 3D-Packung, prüfen Mengen/Preise/Entfernen, Lagerwarnung, sechs Ereignisse, Fehler/Retry, Kundenbestellungen, Dialoge und Reset. Screenshots und Traces entstehen bei Fehlern.
+Die zwölf Browserfälle prüfen Desktop und Mobilgeräte; der Testserver startet automatisch auf Port 4190. Die Tests klicken die echte 3D-Packung, prüfen Mengen/Preise/Entfernen, Lagerwarnung, sechs Ereignisse, Fehler/Retry, Kundenbestellungen, Dialoge und Reset. Screenshots und Traces entstehen bei Fehlern. Mit `E2E_PORT` kann bei einem belegten Port ein separater Testserver gewählt werden.
 
 Mit pnpm: `pnpm install`, `pnpm dev`, `pnpm test`, `pnpm build`, `pnpm preview`. Das enthaltene `pnpm-workspace.yaml` erlaubt ausschließlich den notwendigen esbuild-Installationsschritt.
 
@@ -170,9 +170,9 @@ Danach Vite neu starten bzw. den Build neu erstellen. Alternativ die URL unter *
 
 ## Verifikation
 
-Automatische Tests prüfen Cent-Berechnung, Mengenbegrenzung, sechs erfolgreiche Events inklusive Chips-Warnung, Retry nach Buchung ohne doppelten Abzug, Konkurrenz ohne negative/teilweise Bestände, bedingte Warnungen, automatische Kundenbestellungen, Reset, lokalen Betrieb ohne Requests, Webhook-Ausfall und erfolgreichen Payload.
+Automatische Tests prüfen Cent-Berechnung, Mengenbegrenzung, sechs erfolgreiche Events inklusive Chips-Warnung, Retry nach Buchung ohne doppelten Abzug, Konkurrenz ohne negative/teilweise Bestände, bedingte Warnungen, automatische Kundenbestellungen, geordnete Verarbeitung verzögerter Zeitschritte, Reset, lokalen Betrieb ohne Requests, Webhook-Ausfall und erfolgreichen Payload.
 
-Aktuell **14 Logiktests**: zehn für Bestellverarbeitung und Adapter, zwei für Laufwege und Gehgeschwindigkeit, zwei für gültige Geometrie/Klickflächen. Dazu bestehen **12 Playwright-Browserfälle** für Desktop und mobile Chromium-Ansicht. Die GitHub-Dateien unter `.github/workflows/` führen Installation mit festem Lockfile, Logiktests, Build und die zwölf Browserfälle aus. Im veröffentlichten Repository ist GitHub Pages eingerichtet und `ENABLE_PAGES=true` aktiviert. Der Workflow veröffentlicht erfolgreiche Builds des Hauptbranches; siehe `PORTFOLIO.md`.
+Aktuell **15 Logiktests**: elf für Bestellverarbeitung und Adapter, zwei für Laufwege und Gehgeschwindigkeit, zwei für gültige Geometrie/Klickflächen. Dazu bestehen **12 Playwright-Browserfälle** für Desktop und mobile Chromium-Ansicht. Die GitHub-Dateien unter `.github/workflows/` führen Installation mit festem Lockfile, Logiktests, Build und die zwölf Browserfälle aus. Im veröffentlichten Repository ist GitHub Pages eingerichtet und `ENABLE_PAGES=true` aktiviert. Der Workflow veröffentlicht erfolgreiche Builds des Hauptbranches; siehe `PORTFOLIO.md`.
 
 Manueller Prüflauf: Startansicht → 3D-Auswahl → Produktdetails → Warenkorb → +/−/Entfernen → Demo-Kauf → Bestand 4→3 → Warnung → sechs erfolgreiche Events. Zusätzlich Fehler/Retry, Kundenkäufe bei 4×, Kameraansichten, Schnellfragen und mobile Dialoge prüfen. Ein echter lokaler n8n-Testworkflow wurde aktiviert und per HTTP sowie Browser-App geprüft; der JSON-Export ist enthalten. Die öffentliche Demo benötigt diesen Dienst nicht.
 
