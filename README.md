@@ -6,12 +6,12 @@ Eine interaktive Portfolio-Demo, die einen 3D-Mini-Supermarkt mit einem sichtbar
 
 **Live-Demo:** [AI Grocery Store Automation](https://nico89x.github.io/ai-grocery-store-automation/) · **Code:** [Nico89x/ai-grocery-store-automation](https://github.com/Nico89x/ai-grocery-store-automation)
 
-**Veröffentlicht am 8. Oktober 2026.** [Tests und Produktionsbuild](https://github.com/Nico89x/ai-grocery-store-automation/actions/runs/37738794156) sowie [GitHub-Pages-Deployment](https://github.com/Nico89x/ai-grocery-store-automation/actions/runs/37738794197) erfolgreich. [Veröffentlichung und Bewerbungspräsentation](PORTFOLIO.md).
+**Aktualisiert und veröffentlicht am 8. Oktober 2026: 15 Logiktests und 12 Browserfälle bestanden.** [Tests und Produktionsbuild](https://github.com/Nico89x/ai-grocery-store-automation/actions/runs/37779439241) sowie [GitHub-Pages-Deployment](https://github.com/Nico89x/ai-grocery-store-automation/actions/runs/37779439206) erfolgreich. [Veröffentlichung und Bewerbungspräsentation](PORTFOLIO.md).
 
 [Projektstudie und Rolle](docs/CASE_STUDY.md) · [49-Sekunden-Demo](https://nico89x.github.io/ai-grocery-store-automation/demo.mp4) · [Geprüfter n8n-Testworkflow](automation/README.md)
 
 ![Außenansicht des modellierten Ladens](docs/store-exterior.png)
-![Innenraum mit KI-Roboter, Regalen und Produkten](docs/store-interior.png)
+![Öffentliche Demo mit Kund:innen, KI-Roboter und erfolgreichem Workflow](docs/store-interior.png)
 
 **Portfolio-Demo – keine echte Bestellung und keine Zahlung.** Keine Anmeldung, keine personenbezogenen Daten, keine echte E-Mail-/Slack-Nachricht und keine KI-API. Alle Kundenfiguren, Produkte und Geschäftsvorgänge sind Beispiele. Ohne Webhook-Konfiguration verlässt kein Bestellereignis den Browser. Der Zustand liegt ausschließlich im Arbeitsspeicher und wird beim Neuladen zurückgesetzt.
 
