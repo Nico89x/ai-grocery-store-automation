@@ -9,8 +9,10 @@ export function useSimulation() {
   const deliveries=useRef(new Set<string>()),controllers=useRef(new Set<AbortController>()),session=useRef(state.session);
   useEffect(()=>{
     let last=performance.now();
-    const timer=window.setInterval(()=>{const now=performance.now();dispatch({type:'tick',dt:now-last,now:Date.now()});last=now;},250);
-    return()=>window.clearInterval(timer);
+    const timer=window.setInterval(()=>{const now=performance.now();if(!document.hidden)dispatch({type:'tick',dt:now-last,now:Date.now()});last=now;},250);
+    const resetClock=()=>{last=performance.now();};
+    document.addEventListener('visibilitychange',resetClock);
+    return()=>{window.clearInterval(timer);document.removeEventListener('visibilitychange',resetClock);};
   },[]);
   useEffect(()=>{
     if(session.current!==state.session) {
