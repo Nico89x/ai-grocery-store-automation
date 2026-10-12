@@ -157,6 +157,16 @@ test("Animierte Kund:innen erzeugen eine abgeschlossene Bestellung", async ({
 test("Responsiv, Außen/Innenansicht, zugänglicher Dialog und Reset", async ({
   page,
 }) => {
+  // This journey has many real camera and graphics changes on software GPUs.
+  test.setTimeout(180000);
+  const graphics = page.getByRole("combobox", {
+    name: "Grafikqualität",
+    exact: true,
+  });
+  await expect(graphics).toHaveValue("auto");
+  await graphics.selectOption("economy");
+  await expect(graphics).toHaveValue("economy");
+  await graphics.selectOption("auto");
   await page
     .getByRole("button", { name: "Laden betreten", exact: true })
     .click();
