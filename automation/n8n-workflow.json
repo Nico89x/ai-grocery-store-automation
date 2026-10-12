@@ -6,17 +6,14 @@
       "name": "Demo-Ereignis empfangen",
       "type": "n8n-nodes-base.webhook",
       "typeVersion": 2.1,
-      "position": [
-        0,
-        0
-      ],
+      "position": [0, 0],
       "parameters": {
         "httpMethod": "POST",
         "path": "ai-grocery-portfolio-demo",
         "authentication": "none",
         "responseMode": "responseNode",
         "options": {
-          "allowedOrigins": "https://nico89x.github.io,http://127.0.0.1:4173,http://127.0.0.1:4190"
+          "allowedOrigins": "https://nico89x.github.io,http://127.0.0.1:5173,http://127.0.0.1:4173,http://127.0.0.1:4174,http://127.0.0.1:4175,http://127.0.0.1:4190"
         }
       },
       "webhookId": "0feda24b-2cf9-4847-bf6a-09a24196211c"
@@ -26,10 +23,7 @@
       "name": "Payload und Preise prüfen",
       "type": "n8n-nodes-base.code",
       "typeVersion": 2,
-      "position": [
-        224,
-        0
-      ],
+      "position": [224, 0],
       "parameters": {
         "mode": "runOnceForAllItems",
         "language": "javaScript",
@@ -41,10 +35,7 @@
       "name": "Warnungen als Demo-Datensätze",
       "type": "n8n-nodes-base.code",
       "typeVersion": 2,
-      "position": [
-        448,
-        0
-      ],
+      "position": [448, 0],
       "parameters": {
         "mode": "runOnceForAllItems",
         "language": "javaScript",
@@ -56,10 +47,7 @@
       "name": "Ausführungsbeleg erzeugen",
       "type": "n8n-nodes-base.code",
       "typeVersion": 2,
-      "position": [
-        672,
-        0
-      ],
+      "position": [672, 0],
       "parameters": {
         "mode": "runOnceForAllItems",
         "language": "javaScript",
@@ -71,10 +59,7 @@
       "name": "Empfang bestätigen",
       "type": "n8n-nodes-base.respondToWebhook",
       "typeVersion": 1.5,
-      "position": [
-        896,
-        0
-      ],
+      "position": [896, 0],
       "parameters": {
         "respondWith": "json",
         "responseBody": "={{ $json }}",
