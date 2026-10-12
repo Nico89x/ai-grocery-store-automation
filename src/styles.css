@@ -568,6 +568,29 @@ svg {
 .touch-help {
   display: none;
 }
+.scene-quality {
+  position: absolute;
+  z-index: 2;
+  left: 15px;
+  bottom: 45px;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 4px 7px;
+  background: #f3f5e8f5;
+  border-radius: 5px;
+  color: #32472f;
+  font-size: 10px;
+}
+.scene-quality select {
+  max-width: 165px;
+  background: #fff;
+  color: #263c2a;
+  border: 1px solid #a9b69d;
+  border-radius: 4px;
+  padding: 4px;
+  font: inherit;
+}
 .touch-pad {
   display: none;
 }
