@@ -1105,6 +1105,12 @@ export default function StoreScene({
   const [showLabels, setShowLabels] = useState(false);
   const [wide, setWide] = useState(false);
   const [portraitId, setPortraitId] = useState(61);
+  // Begin cheaply until the renderer is known; software GPUs otherwise block
+  // interaction while compiling and drawing large shadow maps.
+  const [automaticEconomy, setAutomaticEconomy] = useState(true);
+  const [graphics, setGraphics] = useState("auto");
+  const economy =
+    graphics === "economy" || (graphics === "auto" && automaticEconomy);
   const { active: loadingFigures } = useProgress();
   const [streetRunning, setStreetRunning] = useState(
     () => !window.matchMedia("(prefers-reduced-motion: reduce)").matches,
@@ -1145,10 +1151,23 @@ export default function StoreScene({
                 : "demand"
             }
             aria-label="Interaktiver 3D-Laden: belebte Nachbarschaft und anklickbare Produkte im Laden"
-            shadows
-            dpr={[1, 1.5]}
+            shadows={!economy}
+            dpr={economy ? 1 : [1, 1.5]}
             camera={{ position: [8, 5.6, 17.5], fov: 49, near: 0.1, far: 200 }}
             onCreated={({ gl }) => {
+              const context = gl.getContext();
+              const debug = context.getExtension("WEBGL_debug_renderer_info");
+              const renderer = String(
+                context.getParameter(
+                  debug?.UNMASKED_RENDERER_WEBGL ?? context.RENDERER,
+                ),
+              );
+              setAutomaticEconomy(
+                window.matchMedia("(max-width: 650px)").matches ||
+                  /swiftshader|llvmpipe|softpipe|software|microsoft basic/i.test(
+                    renderer,
+                  ),
+              );
               gl.toneMapping = THREE.ACESFilmicToneMapping;
               gl.toneMappingExposure = 0.97;
               gl.shadowMap.type = THREE.PCFSoftShadowMap;
@@ -1322,6 +1341,20 @@ export default function StoreScene({
           1 Finger: drehen · 2 Finger: zoomen / verschieben
         </span>
       </div>
+      <label className="scene-quality">
+        Grafik
+        <select
+          aria-label="Grafikqualität"
+          value={graphics}
+          onChange={(event) => setGraphics(event.target.value)}
+        >
+          <option value="auto">
+            Automatisch · {automaticEconomy ? "sparsam" : "detailreich"}
+          </option>
+          <option value="detail">Detailreich</option>
+          <option value="economy">Sparsam</option>
+        </select>
+      </label>
       <div className="touch-pad" aria-label="Durch den Laden bewegen">
         {[
           ["forward", "↑"],
