@@ -13,8 +13,9 @@ export default defineConfig({
   reporter: [["list"], ["html", { open: "never" }]],
   use: {
     baseURL: `http://127.0.0.1:${port}`,
-    trace: "retain-on-failure",
-    channel: "chromium",
+    // Use Playwright's default Chromium headless shell for CI. A retry records
+    // the full trace; successful runs do not pay for continuous screencasting.
+    trace: "on-first-retry",
     // Exercise the accessible reduced-motion entry state on software-rendered CI.
     // The scene journey explicitly starts/stops street life; customer orders still animate.
     reducedMotion: "reduce",
