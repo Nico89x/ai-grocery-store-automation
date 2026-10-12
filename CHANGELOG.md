@@ -2,6 +2,8 @@
 
 ## 2.1.0 – Portfolio-Ausbau, 12. Oktober 2026
 
+- Sichtbarer automatischer Grafikmodus für kleine Bildschirme und Software-Renderer; Detail- und Sparmodus bleiben manuell wählbar.
+
 - Texturierte CC0-MakeHuman-Derivate mit unabhängigem Skelett pro Person; Herkunft und Konvertierung dokumentiert.
 - Belebte Nachbarschaft mit Passant:innen, Café, Fahrrädern und Fahrzeugen; Außen-, Straßen- und Menschenansicht mit Figurenwechsel.
 - Erweiterte responsive Browserprüfungen und Tests für gültige lokale Charakterdateien.

@@ -113,6 +113,8 @@ Nico89x definiert Konzept, Anforderungen und Zielbild. Implementierung, eigene S
 
 Die Demo zeigt Zustandsverarbeitung und einen geprüften n8n-Anschluss. Sie enthält keinen produktiven Shop, kein dauerhaftes Warenwirtschaftssystem und keine echte KI. NOA antwortet aus lokalen Daten. Bestände werden nicht dauerhaft gespeichert; der n8n-Testempfänger führt keine dauerhafte Deduplizierung durch. Physische Mobilgeräte wurden bislang nicht vermessen; mobile Chromium-Prüfungen ersetzen keinen Gerätetest.
 
-Sinnvolle Erweiterungen: Backend mit Datenbank und serverseitiger Idempotenz, simulierte Nachbestellung/Wareneingang, exportierbare Reports und adaptive Grafikqualität. Sie sind keine Voraussetzung für die bestehende Portfolio-Demo.
+Die Grafikqualität lässt sich in der Szene umschalten. Automatisch nutzt die App auf kleinen Bildschirmen und bei erkennbarer Software-Grafik eine Pixelauflösung von 1 ohne dynamische Schatten; auf Desktop-Grafikkarten bleiben detaillierte Schatten und höhere Auflösung erhalten. Produkte, Menschen, Animationen und Fachlogik sind in beiden Modi verfügbar. Diese Erkennung ist eine einfache Heuristik, kein gemessener FPS-Regler.
+
+Sinnvolle Erweiterungen: Backend mit Datenbank und serverseitiger Idempotenz, simulierte Nachbestellung/Wareneingang, exportierbare Reports und eine anhand der Bildrate geregelte Grafikqualität. Sie sind keine Voraussetzung für die bestehende Portfolio-Demo.
 
 **Lizenz:** Projektcode unter [MIT](LICENSE); eingebundene Charakterdaten unter [CC0](THIRD_PARTY_ASSETS.md). Abhängigkeiten behalten ihre jeweiligen Lizenzen.

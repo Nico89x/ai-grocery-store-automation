@@ -124,3 +124,11 @@ Damals lokale Vorschau: http://127.0.0.1:4174/#/simulation. Der öffentliche Pag
 Der erste neue GitHub-Lauf überschritt auf dem Software-Grafikrechner beim ersten Browserfall das Zeitlimit und wurde beendet. Unsichtbare Charaktermeshes werden jetzt über konservative, bewegungstaugliche Grenzen ausgeblendet. Die Browserfälle verwenden den vorhandenen zugänglichen Einstieg mit reduzierter Bewegung; Straßenleben starten/pausieren und animierte Kundenkäufe werden weiterhin explizit geprüft. Der anschließende vollständige lokale Lauf bestand **alle zwölf Fälle mit Exitcode 0 in 1,6 Minuten**. 17 Fach-/Assettests und der Produktionsbuild bestehen ebenfalls. CI bricht beim ersten endgültigen Fehler ab, protokolliert ihn sofort und hält Trace/Screenshot/Report sieben Tage als Artefakt vor.
 
 Dieser Abschnitt belegt den lokal geprüften Stand. Öffentliche CI-/Deployment-Ergebnisse werden erst nach tatsächlicher Veröffentlichung ergänzt.
+
+### Weitere CI-Diagnose am 12. Oktober
+
+Der [zweite Release-Prüflauf](https://github.com/Nico89x/ai-grocery-store-automation/actions/runs/38221726182) bestand Formatierung, 17 Tests, Build und die ersten fünf Desktop-Browserfälle. Der umfangreiche Ansichtswechsel-Fall überschritt zweimal sein Gesamtzeitlimit von 120 Sekunden. Die heruntergeladene Playwright-Spur zeigt langsame erfolgreiche Aktionen: etwa 18 Sekunden für den Beschleunigungsbutton und 43 Sekunden für das Pausieren des Straßenlebens; es wurden keine Fachlogikfehler festgestellt. Sechs Mobilfälle liefen nach dem endgültigen Fehler nicht mehr.
+
+Als Korrektur erkennt der automatische Grafikmodus kleine Bildschirme und Software-Renderer und reduziert dort die Pixelauflösung auf 1 sowie dynamische Schatten. Der Modus ist über „Grafikqualität“ sichtbar umschaltbar; er ist keine versteckte Testsonderbehandlung. Der komplexe Ansichtswechsel-Fall erhält 180 Sekunden; das CI-Gesamtbudget beträgt 25 Minuten. Die funktionalen Assertions bleiben bestehen.
+
+Nach dieser Grafikmodus-Korrektur: 17 Tests, TypeScript und Produktionsbuild erfolgreich; kompletter lokaler Desktop-/Mobillauf mit Grafikumschaltung erneut **12/12 erfolgreich, Exitcode 0, 1,6 Minuten**. Formatierungsprüfung erfolgreich. Der zugehörige neue öffentliche CI-Lauf ist separat zu verifizieren.
