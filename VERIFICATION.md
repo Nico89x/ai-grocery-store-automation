@@ -97,3 +97,28 @@ Kamerafahrten nutzen jetzt eine monotone Zeitmessung; Simulationstakte holen bis
 - Der reale lokale n8n-Testworkflow ist weiterhin aktiv. Die öffentliche Demo benötigt ihn nicht. Synthetische HTTP-Nachweise und Importdateien bleiben unter `automation/` und `docs/` verfügbar.
 
 Die abschließende Aktualisierung der Markdown-Nachweise und Screenshots verändert keinen Anwendungscode. Die oben verlinkten vollständigen Prüfungen beziehen sich auf den veröffentlichten Anwendungsstand.
+
+## Lokaler Ausbau: texturierte Menschen und Nachbarschaft, 9. Oktober 2026
+
+Dieser Abschnitt beschreibt den lokalen Entwicklungsstand. Die oben verlinkten GitHub-Prüfungen und öffentlichen Screenshots gehören weiterhin zum vorherigen veröffentlichten Stand.
+
+- Drei CC0-MakeHuman-Derivate ersetzen die prozeduralen Figuren: texturierte Haut, Haare, Augen, Kleidung und Schuhe; pro Figur ein eigenes Skelett. Quellen, Lizenz und Konvertierung stehen in THIRD_PARTY_ASSETS.md.
+- Menschen-Nahansicht mit Figurenwechsel, Straßenblick, vergrößerbare Szene und separat pausierbares Straßenleben ergänzt. Café-Gäste, Passant:innen, Fahrradfahrer und Fahrzeuge erzeugen keine Bestellungen. Nur die bestehenden Demo-Kund:innen buchen Waren über die Bestellqueue.
+- Produktionsbuild erfolgreich. 17 Tests erfolgreich, einschließlich endlicher GLB-Geometrie, normalisierter Skinning-Gewichte, gültiger Knochenindizes, lokaler Texturpfade und eines Downloadbudgets unter 6 MB für die Charakterdateien.
+- Alle zwölf vorhandenen Browserfälle liefen nach der Modellintegration erfolgreich durch: Warenkorb, Kauf mit Chips 4 → 3 und Warnung, echter 3D-Packungsklick, Fehler/Retry ohne doppelte Buchung, automatische Kundenbestellung und responsive Bedienung, jeweils auf Desktop und Mobil. Der damalige Windows-Runner wurde nach den zwölf erfolgreichen Fällen beim Aufräumen beendet.
+- Die anschließend erweiterten zwei Responsivfälle wurden am 9. Oktober erneut mit Exitcode 0 bestanden: Menschenansicht, zweimaliger Figurenwechsel, keine sichtbare 3D-Fehleransicht, Groß-/Kompaktansicht ohne horizontalen Überlauf, Straßenblick, Straßenleben pausieren/starten, Laden betreten, Produktdialog und Reset. Dabei werden auch Konsolenfehler geprüft. Laufzeit 58,4 Sekunden.
+- Ein anfänglicher Testfehler zählte das unsichtbare HTML-Ersatzbild innerhalb des Canvas. Die korrigierte Prüfung sucht sichtbare Fehleransichten. Der lokale Browser zeigte die Modelle und keine Konsolenfehler oder Warnungen.
+- Die Modelle sind Echtzeit-Webgrafik mit prozeduralen Bewegungen, kein Motion Capture und kein fotorealistischer Scan. Auf echten Mobilgeräten wurde die Bildrate nicht gemessen.
+
+Damals lokale Vorschau: http://127.0.0.1:4174/#/simulation. Der öffentliche Pages-Stand war bei diesem visuellen Ausbau noch nicht ersetzt.
+
+## Vollständige Portfolio-Prüfung – 12. Oktober 2026
+
+- 17 Logik-, Adapter-, Geometrie- und Charakterdatei-Tests erfolgreich; TypeScript und Vite-Produktionsbuild erfolgreich. Einheitliche Quellcodeformatierung mit Prettier geprüft; CI prüft sie ebenfalls.
+- Alle **12 Playwright-Fälle** im vollständigen Lauf erfolgreich, **Exitcode 0**, Laufzeit 2,8 Minuten. Geprüft: Warenkorbmengen/Centpreise/Entfernen, echter 3D-Produktklick, Chips 4 → 3 mit genau einer Warnung und sechs erfolgreichen Ereignissen, Fehler/Retry bei Wasser 15 → 14 ohne zweite Buchung, automatische Kundenbestellung sowie Desktop-/Mobilbedienung einschließlich Menschenansicht, Figurenwechsel, Außen-/Straßenansicht und Reset. Unbehandelte Browser- und Konsolenfehler werden geprüft.
+- Neuer synthetischer Kauf aus der laufenden Browser-App an den realen lokalen n8n-Empfänger: **Ausführung 286 bestätigt**, Webhook verbunden. Lagerbuchung und simulierte Benachrichtigung verbleiben im lokalen Simulator; keine echten externen Nachrichten. Nachweis: [n8n-Browseransicht](docs/n8n-connected.png).
+- Neue ungekürzte Demo-Aufnahme: **45,36 Sekunden**, 1440 × 1000, 25 fps, H.264/Faststart, **3.685.304 Bytes**. Aufnahme prüft die sichtbaren Kauf-/Retry-Ergebnisse und Browserfehler. Neue Außen-, Menschen- und Innenraum-Screenshots zeigen tatsächlich gerenderte Zustände.
+- README, MIT-Lizenz, Beitragsanleitung, Änderungsprotokoll, Architektur-/Projektstudie, Asset-Herkunft und Gesprächsleitfaden ergänzt bzw. aktualisiert. Die Modelle sind CC0-Derivate; die Herkunft wird von der eigenen Ladenszene und Verarbeitungslogik getrennt erläutert.
+- Verbleibende Grenzen: Echtzeit-Webgrafik mit prozeduralen Bewegungen; keine fotorealistischen Scans. Mobile Browserbreiten wurden emuliert, die Bildrate auf physischen Mobilgeräten wurde nicht gemessen. Three.js wird verzögert geladen; sein komprimierter Hauptchunk beträgt etwa 355 kB. Die Vite-Größenwarnung wird bewusst nicht unterdrückt.
+
+Dieser Abschnitt belegt den lokal geprüften Stand. Öffentliche CI-/Deployment-Ergebnisse werden erst nach tatsächlicher Veröffentlichung ergänzt.

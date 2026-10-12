@@ -1,0 +1,8 @@
+node_modules
+dist
+work
+playwright-report
+test-results
+pnpm-lock.yaml
+public/assets
+*.tsbuildinfo

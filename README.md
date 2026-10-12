@@ -1,190 +1,118 @@
 # AI Grocery Store Automation
 
-Eine interaktive Portfolio-Demo, die einen 3D-Mini-Supermarkt mit einem sichtbaren, lokal simulierten Automationsprozess verbindet. Der Schwerpunkt liegt auf nachvollziehbarer Ereignisverarbeitung, korrekter Warenkorb- und Lagerlogik und beobachtbaren Workflows.
+[![Tests and build](https://github.com/Nico89x/ai-grocery-store-automation/actions/workflows/verify.yml/badge.svg)](https://github.com/Nico89x/ai-grocery-store-automation/actions/workflows/verify.yml)
+[![Live demo](https://github.com/Nico89x/ai-grocery-store-automation/actions/workflows/pages.yml/badge.svg)](https://github.com/Nico89x/ai-grocery-store-automation/actions/workflows/pages.yml)
 
-**For reviewers:** An interactive 3D store backed by a local event-driven order processor. Manual purchases and animated customers share the same inventory transaction, low-stock detection and observable workflow. A failed completion can be retried without charging inventory twice. React, TypeScript, React Three Fiber; no credentials required. This is a portfolio simulation, not a production shop or an AI service.
+Ein interaktiver 3D-Laden macht einen Einkauf erlebbar; ein lokaler Ereignisprozessor macht Bestellung, Lagerbuchung, Warnung und Fehlerbehandlung sichtbar.
 
-**Live-Demo:** [AI Grocery Store Automation](https://nico89x.github.io/ai-grocery-store-automation/) · **Code:** [Nico89x/ai-grocery-store-automation](https://github.com/Nico89x/ai-grocery-store-automation)
+**For reviewers:** React / TypeScript / React Three Fiber portfolio simulation with an event-driven order queue, atomic inventory updates, observable workflows and safe completion retries. An optional, tested n8n webhook validates completed demo orders. No credentials needed for the default demo.
 
-**Aktualisiert und veröffentlicht am 8. Oktober 2026: 15 Logiktests und 12 Browserfälle bestanden.** [Tests und Produktionsbuild](https://github.com/Nico89x/ai-grocery-store-automation/actions/runs/37779439241) sowie [GitHub-Pages-Deployment](https://github.com/Nico89x/ai-grocery-store-automation/actions/runs/37779439206) erfolgreich. [Veröffentlichung und Bewerbungspräsentation](PORTFOLIO.md).
+**[Live ausprobieren](https://nico89x.github.io/ai-grocery-store-automation/#/simulation)** · [Projektstudie](docs/CASE_STUDY.md) · [Demo-Video](https://nico89x.github.io/ai-grocery-store-automation/demo.mp4) · [Prüfnachweise](VERIFICATION.md) · [n8n-Anleitung](automation/README.md)
 
-[Projektstudie und Rolle](docs/CASE_STUDY.md) · [49-Sekunden-Demo](https://nico89x.github.io/ai-grocery-store-automation/demo.mp4) · [Geprüfter n8n-Testworkflow](automation/README.md)
+![Laden und belebte Nachbarschaft](docs/store-exterior.png)
+![Laden mit erfolgreicher Bestellung und Lagerwarnung](docs/store-interior.png)
 
-![Außenansicht des modellierten Ladens](docs/store-exterior.png)
-![Öffentliche Demo mit Kund:innen, KI-Roboter und erfolgreichem Workflow](docs/store-interior.png)
+**Portfolio-Demo – keine echte Bestellung und keine Zahlung.** Keine Anmeldung, personenbezogenen Daten, echte Nachricht oder KI-API. Produkte und Personen sind Beispiele. Ohne Webhook-URL werden keine Bestellereignisse übertragen. Der Zustand liegt im Arbeitsspeicher und beginnt nach Neuladen von vorn.
 
-**Portfolio-Demo – keine echte Bestellung und keine Zahlung.** Keine Anmeldung, keine personenbezogenen Daten, keine echte E-Mail-/Slack-Nachricht und keine KI-API. Alle Kundenfiguren, Produkte und Geschäftsvorgänge sind Beispiele. Ohne Webhook-Konfiguration verlässt kein Bestellereignis den Browser. Der Zustand liegt ausschließlich im Arbeitsspeicher und wird beim Neuladen zurückgesetzt.
+## In zwei Minuten ausprobieren
 
-## Starten
+1. Die direkte Simulationsansicht startet mit pausierten Kund:innen, damit der erste Kauf reproduzierbar bleibt. Mit **Laden betreten** nach innen wechseln.
+2. Eine gelbe Chips-Packung im 3D-Raum oder **Kesselchips Meersalz** in der Produktliste wählen. **In Warenkorb** → **Warenkorb ansehen** → **Demo-Kauf auslösen**.
+3. Bestand **4 → 3**, Mindestbestand **4**: eine Lagerwarnung und sechs erfolgreiche Workflow-Schritte erscheinen.
+4. **Fehler beim Workflow simulieren** einschalten und Mineralwasser kaufen. Nach dem Testfehler **Erneut versuchen** drücken: Wasser bleibt bei **14**, ohne zweite Bestandsbuchung.
+5. **Kund:innen starten** und **Simulation beschleunigen** zeigen automatische Käufe über denselben Prozessor. **Simulation zurücksetzen** stellt den Ausgangszustand wieder her.
 
-Voraussetzung: Node.js **22.12 oder neuer** (geprüft mit Node 24) und npm. Alternativ funktioniert pnpm mit dem enthaltenen Lockfile.
+Ohne Grenzübertritt werden Warnung und Benachrichtigung übersprungen. Weitere Käufe eines schon niedrigen Bestands erzeugen keine zweite Warnung. Die Bestellauswahl zeigt auch ältere Abläufe der Sitzung.
 
-```bash
-npm install
-npm run dev
-```
+## Lokal starten
 
-Die im Terminal ausgegebene lokale URL öffnen, standardmäßig `http://127.0.0.1:5173/`.
-
-```bash
-npm test          # 15 Logik-/Adapter-/Geometrietests
-npm run build    # TypeScript prüfen und Produktionsbuild erstellen
-npm run preview  # Produktionsbuild lokal anzeigen, standardmäßig Port 4173
-```
-
-Für die automatischen Browsertests zusätzlich:
+Node.js **22.12+**, geprüft mit Node 24. Für reproduzierbare Abhängigkeiten: **pnpm 11.25.0** und das enthaltene Lockfile.
 
 ```bash
-npx playwright install chromium
-npm run build
-npm run test:e2e
+npm install --global pnpm@11.25.0
+pnpm install --frozen-lockfile
+pnpm dev --port 4175 --strictPort
 ```
 
-Die zwölf Browserfälle prüfen Desktop und Mobilgeräte; der Testserver startet automatisch auf Port 4190. Die Tests klicken die echte 3D-Packung, prüfen Mengen/Preise/Entfernen, Lagerwarnung, sechs Ereignisse, Fehler/Retry, Kundenbestellungen, Dialoge und Reset. Screenshots und Traces entstehen bei Fehlern. Mit `E2E_PORT` kann bei einem belegten Port ein separater Testserver gewählt werden.
+Die lokale Vorschau steht dann unter **http://127.0.0.1:4175/**. Sie ist nur auf dem Gerät erreichbar, auf dem der Server läuft. Der öffentliche Live-Link funktioniert unabhängig davon.
 
-Mit pnpm: `pnpm install`, `pnpm dev`, `pnpm test`, `pnpm build`, `pnpm preview`. Das enthaltene `pnpm-workspace.yaml` erlaubt ausschließlich den notwendigen esbuild-Installationsschritt.
+Alternativ funktionieren **npm install** und **npm run dev**. Die Browsertests setzen kein globales pnpm voraus; ihr Server startet direkt über Node.
 
-## Demo in zwei Minuten
+```bash
+pnpm test               # 17 Logik-, Adapter-, Geometrie- und Assettests
+pnpm format:check       # Einheitliche Quellcodeformatierung
+pnpm build              # TypeScript und Produktionsbuild
+pnpm exec playwright install chromium
+pnpm test:e2e           # 12 Browserfälle: Desktop und mobile Chromium-Ansicht
+pnpm preview            # Produktionsbuild lokal öffnen
+```
 
-1. **Simulation starten** öffnet die Simulationsansicht und startet nacheinander eintretende Kund:innen. Die Pause-Taste stoppt weitere Kundenbewegungen; bereits ausgelöste Bestellungen werden weiter verarbeitet.
-2. Die Szene startet vor dem Geschäft: Schaufenster, Eingang, Dach, Gehweg und Nachbargebäude. **Laden betreten** oder ein Klick auf die Glastür wechselt nach innen. Auf die gelbe Chips-Packung oder das Etikett im 3D-Laden klicken. Die zugängliche Produktliste bietet dieselben Produktdetails.
-3. **1 × Kesselchips Meersalz** in den Warenkorb legen. Initialbestand: 4; Mindestbestand: 4. Im Warenkorb Mengen ändern, Produkte entfernen und Einzelpreise/Gesamtsumme prüfen.
-4. **Demo-Kauf auslösen**. Das Panel verarbeitet nacheinander `order.created`, `inventory.checked`, `inventory.updated`, `low_stock.detected`, `notification.sent` und `order.completed`.
-5. Der Chips-Bestand sinkt auf **3**, also unter das Minimum. Dashboard und Workflow zeigen die Lagerwarnung. Die Benachrichtigung ist ein lokales Ereignis, keine tatsächlich versendete Nachricht.
-6. **Fehler beim Workflow simulieren** aktivieren und einen weiteren manuellen Kauf auslösen. Der absichtliche Testfehler tritt bei `order.completed` auf, nachdem der Bestand bereits gebucht wurde.
-7. **Erneut versuchen** setzt den fehlgeschlagenen Schritt fort. Erfolgreiche Schritte, Bestandsbuchungen und Warnungen werden nicht wiederholt. Der abgeschlossene Workflow zeigt Versuch 2.
-8. Mit **Simulation beschleunigen** zwischen 1× und 4× wechseln. **Simulation zurücksetzen** setzt nach Bestätigung Bestände, Warenkorb, Kundenfiguren, Bestellungen und Logs zurück.
+CI installiert mit festem Lockfile und prüft Formatierung, Tests, Build und Browserfälle. Pages veröffentlicht erst nach erfolgreichen Prüfungen. Details und konkrete Ergebnisse: [VERIFICATION.md](VERIFICATION.md).
 
-Die Warnung entsteht bei einem **Grenzübertritt** (`vorher >= Minimum`, `nachher < Minimum`). Weitere Käufe eines bereits niedrigen Bestands erzeugen keine doppelte Warnung. Bestellungen ohne Grenzübertritt haben vier Workflow-Schritte; Warnung und Benachrichtigung werden dann nicht benötigt. Pro Order lässt sich der vollständige Ablauf in der Auswahl erneut ansehen.
+## Bedienung und 3D-Szene
 
-## Kamera und Mobilgeräte
+- Ziehen dreht die Kamera; Scrollrad zoomt; rechte Maustaste verschiebt. WASD / Pfeile bewegen die Ansicht, wenn kein Dialog oder Eingabefeld fokussiert ist.
+- Sechs Ansichten: **Laden**, **Übersicht**, **Augenhöhe**, **Außenansicht**, **Straßenblick**, **Menschen**. **Andere Person ansehen** wechselt sechs Erscheinungsprofile auf Basis dreier Modelle.
+- Touch: ein Finger dreht, zwei Finger zoomen und verschieben; zusätzliche Pfeiltasten bewegen die Kamera.
+- **3D groß ansehen** vergrößert die Szene. **Straßenleben pausieren** stoppt Nachbarschaftsanimationen unabhängig von den Demo-Kund:innen.
+- Kund:innen wählen Produkte und erzeugen Bestellungen. Café-Gäste, Passant:innen, Fahrzeuge und Radfahrer beleben die Umgebung und buchen keine Waren.
+- Produktliste und Dialoge bieten dieselben Funktionen ohne 3D-Klick. Dialoge besitzen Fokusbindung und Escape-Bedienung. Bei fehlendem WebGL bleibt der Einkauf über HTML nutzbar.
 
-- Maus ziehen: Kamera drehen. Scrollrad: zoomen. Rechte Maustaste ziehen: verschieben.
-- WASD oder Pfeiltasten: horizontal durch die Szene bewegen, solange kein Eingabefeld oder Dialog fokussiert ist.
-- **Außenansicht**, **Laden**, **Übersicht**, **Augenhöhe** setzen die Kamera auf eine feste Ansicht zurück. **Laden betreten** und **Nach draußen** wechseln zwischen Straße und Innenraum, ohne Warenkorb oder Bestellzustand zurückzusetzen. Der Kamerawechsel ist animiert; mit aktivierter Systemeinstellung „Bewegung reduzieren“ erfolgt er sofort.
-- Die eigenen Figuren haben Gesichter, Frisuren, Knie- und Armbewegungen sowie eine Auswahlbewegung. Die Laufzeit entsteht aus Weglänge und einer Gehgeschwindigkeit von 1,18–1,36 m/s. Die Kundenfiguren kommen vom Gehweg durch eine automatische Schiebetür, wählen ihre Produkte und verlassen das Geschäft nach dem Demo-Kauf. Dach und Fassade sind außen und auf Augenhöhe geschlossen; die Ansichten **Laden** und **Übersicht** zeigen einen offenen Grundriss, damit Produkte und Abläufe gut erreichbar bleiben.
-- Touch: ein Finger dreht, zwei Finger zoomen/verschieben. Vier zusätzliche Bewegungstasten erleichtern die mobile Navigation.
-- Auf kleinen Bildschirmen folgen Workflow, Lagerbestand und Produktliste direkt unter der 3D-Szene. Dialoge haben Fokusbindung, Escape schließt sie. Produkte sind zusätzlich per Tastatur aus der Liste auswählbar.
-- Bei fehlendem WebGL bleibt die Produktliste mit Warenkorb und Automation nutzbar.
-- **Produktinfos anzeigen** blendet die im Raum verankerten Detailbuttons ein. Standardmäßig bleiben die schwebenden Preisschilder ausgeblendet; Waren und die Produktliste sind weiterhin anklickbar. Die 3D-Regale haben eigene Preisschienen.
+Laden, Roboter, neutrale Verpackungen und Umgebung entstehen aus Projektcode. Die Menschen verwenden lokal gebündelte **CC0-MakeHuman-Assets**, eigene Anpassungen und prozedurale Animationen. Alle Charakterdateien zusammen liegen unter 6 MB. [Herkunft und Lizenz](THIRD_PARTY_ASSETS.md). Keine externen Asset-CDNs; keine Motion-Capture- oder fotorealistischen Scans.
 
-## Verarbeitung auf einen Blick
+## Architektur und Datenfluss
 
 ```mermaid
 flowchart LR
-  C[Warenkorb / animierte Kund:innen] --> Q[Bestellqueue]
+  C[Warenkorb / Demo-Kund:innen] --> Q[Bestellqueue]
   Q --> O[order.created]
   O --> V[inventory.checked]
   V --> I[inventory.updated: einmalige Buchung]
   I --> L{Mindestbestand unterschritten?}
   L -->|Ja| W[low_stock.detected]
-  W --> N[notification.sent: lokal simuliert]
+  W --> N[notification.sent: simuliert]
   L -->|Nein| F[order.completed]
   N --> F
-  F --> H[Optionaler Webhook-Adapter]
-  F -->|Testfehler| R[Retry nur des fehlgeschlagenen Schritts]
+  F --> H[Optionaler n8n-Empfang]
+  F -->|Testfehler| R[Retry des Abschlusses]
   R --> F
 ```
 
-Bewusste Entscheidungen: Ein reiner Reducer macht die Lagerlogik unabhängig vom 3D-Rendering testbar. Cent-Werte vermeiden Rundungsfehler. Eine Queue verhindert konkurrierende Teilbuchungen. Prozedurale Materialien und Modelle brauchen keine externen Asset-Server. Die simulierte KI-Assistenz ist bewusst regelbasiert. Der 3D-Bibliothekschunk wird separat geladen, bleibt aber die größte Downloadkomponente; auf schwächeren Geräten stehen die HTML-Produkte als alternative Bedienung bereit.
+| Bereich                               | Verantwortung                                                             |
+| ------------------------------------- | ------------------------------------------------------------------------- |
+| src/domain/products.ts                | 11 neutrale Produkte, Cent-Preise, Start- und Mindestbestand              |
+| src/domain/simulation.ts              | Reiner Reducer: Warenkorb, Queue, Kundenphasen, Events, Lager und Retry   |
+| src/hooks/useSimulation.ts            | Zeittakt, Reset und einmalige Webhook-Zustellung je Sitzung               |
+| src/scene/                            | Laden, Kamera, Produkte, Roboter, Charaktere und Nachbarschaft            |
+| src/components/                       | Zugängliche Dialoge, Workflow-Panel, Produktabbildungen und Projektstudie |
+| src/services/webhook.ts               | Einziger externer Erweiterungspunkt und Empfangsprüfung                   |
+| automation/                           | Importierbarer n8n-Workflow, Beispielereignis und Anschlussanleitung      |
+| e2e/ und scripts/human-assets.test.ts | Bedienabläufe und gültige lokale Charakterdateien                         |
 
-## Projektarchitektur
+Hash-Routen **#/** und **#/simulation** funktionieren auf GitHub Pages ohne Serverrouting. Die 3D-Szene wird getrennt geladen. Prozedurale Materialien entstehen einmal pro Szene; Charaktere teilen Geometrien/Texturen und besitzen getrennte Skelette.
 
-```text
-src/
-  App.tsx                      Start-/Simulationsansicht und Bedienung
-  main.tsx                     React-Einstieg
-  styles.css                   Responsives Layout, Dialoge, Kontraste
-  domain/
-    products.ts                Neutrale Produkte, Preise in Cent, Start-/Mindestbestand
-    customerJourney.ts         Gemeinsame Laufwege, Türdurchgang und Gehgeschwindigkeit
-    customerJourney.test.ts    Laufwege und Abstände zur Kasse prüfen
-    simulation.ts              Reiner Reducer, Bestellqueue, Lagerbuchung, Kundenphasen
-    simulation.test.ts         Tests für Käufe, Retry, Konkurrenz, Kunden und Webhook
-  hooks/
-    useSimulation.ts           Zeittakt und einmalige Webhook-Zustellung
-  scene/
-    StoreScene.tsx             React Three Fiber, Geometrie, Kamera und Kunden
-    HumanShopper.tsx           Eigene Figuren mit Gelenken, Gesichtern und Greifbewegung
-    StoreExterior.tsx          Fassade, Schaufenster, Schiebetür und Straßenraum
-    GroceryProduct.tsx         Eigene Warengeometrie und neutrale Verpackungen
-    Materials.tsx              Gemeinsame prozedurale Materialbibliothek
-    ProductGeometry.ts         Verformte Warengeometrie mit begrenzten Koordinaten
-    ProductGeometry.test.ts    Regressionstest für gültige 3D-Klickflächen
-  components/
-    WorkflowPanel.tsx          Ereignisse, Status, Retry und Protokoll
-    Modal.tsx                  Native zugängliche Dialoge
-    ProductArt.tsx             Selbst gestaltete Produktabbildungen
-    Icon.tsx                   Eigene SVG-Symbole
-  services/
-    webhook.ts                 Einziger externer Erweiterungspunkt
-```
+**Konsistenz:** Preise sind ganze Cent-Werte. Bestellungen speichern Preis-/Mengen-Snapshots. Die Queue prüft unmittelbar vor der Buchung alle Artikel gemeinsam; keine Teilbuchung, kein negativer Bestand. Das Merkmal **inventoryApplied** verhindert einen zweiten Abzug beim Retry. Eine Warnung entsteht nur beim Grenzübertritt. Reset beendet laufende externe Requests. Kundenkäufe und Warenkorb verwenden denselben Prozessor.
 
-React, TypeScript, Vite, Three.js, React Three Fiber und Drei. Die Ansichten sind über Hash-Routen (`#/` und `#/simulation`) auch auf einfachen statischen Servern nutzbar. Die 3D-Bibliotheken und Szene werden in getrennten Chunks geladen. Es gibt keine entfernten Fonts, HDR-Dateien, Bilder oder Produktmodelle: Geometrie, Verpackungsetiketten, Bodentextur, Illustrationen und Symbole werden selbst per Code erstellt.
+## Was n8n übernimmt
 
-Die Materialbibliothek erzeugt Holzmaserung, Stein, Putz und Backwarenkruste einmal pro Szene und gibt GPU-Texturen beim Abbau frei. Eine lokal gerenderte Lichtumgebung liefert Reflexionen ohne HDR-Download. Chipstüten sind verformte Netze, Flaschen Rotationskörper, Bananen und Croissants Kurvengeometrie. Blattgruppen der Straßenbäume verwenden Instancing. Die Darstellung ist detaillierte Echtzeit-3D-Grafik; sie ist kein fotorealistisches Offline-Rendering.
+Die Lagerbuchung und das sichtbare Workflow-Panel laufen **lokal**. Erst nach erfolgreichem Abschluss sendet **deliverOrder()** optional **order.completed** an n8n. Der Testworkflow prüft Demo-Kennzeichnung, Artikel, Mengen, Beispielpreise und Summe. Er erzeugt simulierte Warnungsdatensätze und antwortet mit einer echten Ausführungs-ID.
 
-### Zustandsmodell und Garantien
+**Webhook verbunden** erscheint erst, wenn der Empfangsbeleg zu Bestell-ID, Ereignisschlüssel und Summe passt. HTTP 200 allein genügt nicht. Ohne URL erfolgt kein Request; bei Timeout oder ungültiger Antwort bleibt der abgeschlossene lokale Kauf erhalten.
 
-- Produkte: ID, Kategorie, Preis in ganzen Cent, Beschreibung, Farbe/Form, Start- und Mindestbestand, Vegan-Kennzeichen und Regalposition.
-- Warenkorb: Produkt-ID → positive ganzzahlige Menge, begrenzt durch den aktuell verfügbaren Bestand. Bei zwischenzeitlichen Kundenkäufen weist die UI auf zu hohe Warenkorbmengen hin.
-- Orders: unveränderliche Preis-/Mengen-Snapshots, Quelle `manual`/`customer`, Gesamtpreis, Event-Schritte, Versuchszähler und `inventoryApplied`.
-- Eine Queue verarbeitet Bestellungen nacheinander. Der aktuelle Bestand wird unmittelbar vor der gemeinsamen Buchung nochmals geprüft; es gibt keine Teilbuchung und keinen negativen Bestand. Keine Zahlung oder Reservierung.
-- Erfolgreiche Buchungen werden beim Retry nicht erneut ausgeführt. Nach dem absichtlichen Testfehler wird ausschließlich der Abschluss wiederholt.
-- Kundenphasen: Eintritt → Regal → Auswahl → Kasse → lokaler Kauf → Ausgang. Die Produkt-ID des gewählten Artikels landet in derselben Bestellqueue wie ein manueller Warenkorb.
-- Warnung: eine pro Produkt und Grenzübertritt; Zeitstempel und Bezug zur Bestellung bleiben erhalten. Bei Reset wird das Lager aufgefüllt.
-- Ereignisse: ausstehend/läuft/erfolgreich/fehlgeschlagen; Zeitstempel werden beim Start und Abschluss gesetzt. Pending-Schritte haben noch keinen Ausführungszeitpunkt.
-- Der Zeitfaktor beschleunigt Kunden und Workflow. Kunden pausieren unabhängig von bereits ausgelösten Käufen. Lange Hintergrund-Pausen werden pro Tick begrenzt, damit die Verarbeitung nachvollziehbar bleibt.
-- Maximal 60 automatische Bestellungen pro Sitzung; maximal drei sichtbare Kundenfiguren. Das Protokoll hält die jüngsten 150 Zustandswechsel, die Bestellhistorie bleibt für die Sitzung erhalten.
-
-## Erweiterungspunkt für n8n
-
-`src/services/webhook.ts` enthält `deliverOrder()` und `orderPayload()`. Die lokale Verarbeitung ist immer maßgeblich. Erst nach `order.completed` wird optional ein Demo-Ereignis gesendet. **Ohne URL wird überhaupt kein Request ausgeführt**, und die UI zeigt **Lokale Demo-Verarbeitung**.
-
-Optional `.env.example` nach `.env.local` kopieren:
+Unter **Lager im Blick → n8n-Testverbindung konfigurieren** eine URL für den nächsten Kauf aktivieren. Alternativ:
 
 ```dotenv
-VITE_AUTOMATION_WEBHOOK_URL=https://dein-testserver.example/webhook/grocery-demo
+VITE_AUTOMATION_WEBHOOK_URL=https://dein-n8n.example/webhook/ai-grocery-portfolio-demo
 ```
 
-Danach Vite neu starten bzw. den Build neu erstellen. Alternativ die URL unter **Lager im Blick → n8n-Testverbindung konfigurieren** für den nächsten Kauf aktivieren. Der [importierbare n8n-Workflow](automation/n8n-workflow.json) und die [Anschlussanleitung](automation/README.md) sind enthalten. Der echte HTTP-Empfang wurde geprüft (Ausführungen 277 und 279), außerdem ein Kauf direkt aus der Browser-App (278). Der Empfänger prüft Demo-Kennzeichnung, Artikel, Mengen, Preise und Summe und liefert eine n8n-Ausführungs-ID. Erst ein passender JSON-Empfangsbeleg aktiviert **Webhook verbunden**. Ungültige Antworten, Timeout oder Netzfehler behalten den lokalen Ablauf bei. Die öffentliche Demo startet ohne Endpunkt; die geprüfte n8n-Instanz ist lokal. Beispielpayload:
+Eine **.env.local** ist nicht eingecheckt; nach Änderung neu starten/builden. VITE-Werte sind öffentlich: keine Geheimnisse eintragen. Die öffentliche Demo startet bewusst ohne Endpunkt. Die lokale geprüfte Instanz lässt sich nicht automatisch an andere Besucher weitergeben. [Import, CORS, aktueller Empfangsnachweis und Grenzen](automation/README.md).
 
-```json
-{
-  "schemaVersion": 1,
-  "demo": true,
-  "event": "order.completed",
-  "idempotencyKey": "SITZUNGS-ID:DEMO-001",
-  "order": {
-    "id": "DEMO-001",
-    "source": "manual",
-    "createdAt": "2026-10-07T10:00:00.000Z",
-    "totalCents": 249,
-    "items": [{ "productId": "chips", "quantity": 1, "unitPrice": 249 }]
-  },
-  "lowStockProducts": ["chips"]
-}
-```
+## Umfang, Rolle und Erweiterungen
 
-`VITE_*`-Werte sind öffentlich im Browserbuild. Keine API-Schlüssel oder Geheimnisse eintragen. Für eine spätere echte Integration: eigener Backend-Proxy, Authentifizierung und serverseitige Prüfung/Deduplizierung ergänzen. Auch dann darf diese Portfolio-Demo nur gekennzeichnete Testdaten senden. Die aktuell bereitgestellte Version hat keinen konfigurierten externen Endpunkt.
+Nico89x definiert Konzept, Anforderungen und Zielbild. Implementierung, eigene Szenengeometrie, Animationen, Dokumentation und technische Prüfungen entstanden mit KI-Unterstützung. Eingebundene Charakterdaten sind separat dokumentiert. [Projektstudie](docs/CASE_STUDY.md) und [Gesprächsleitfaden](docs/INTERVIEW_GUIDE.md) erklären die Entscheidungen ohne erfundene Geschäftsergebnisse.
 
-## Verifikation
+Die Demo zeigt Zustandsverarbeitung und einen geprüften n8n-Anschluss. Sie enthält keinen produktiven Shop, kein dauerhaftes Warenwirtschaftssystem und keine echte KI. NOA antwortet aus lokalen Daten. Bestände werden nicht dauerhaft gespeichert; der n8n-Testempfänger führt keine dauerhafte Deduplizierung durch. Physische Mobilgeräte wurden bislang nicht vermessen; mobile Chromium-Prüfungen ersetzen keinen Gerätetest.
 
-Automatische Tests prüfen Cent-Berechnung, Mengenbegrenzung, sechs erfolgreiche Events inklusive Chips-Warnung, Retry nach Buchung ohne doppelten Abzug, Konkurrenz ohne negative/teilweise Bestände, bedingte Warnungen, automatische Kundenbestellungen, geordnete Verarbeitung verzögerter Zeitschritte, Reset, lokalen Betrieb ohne Requests, Webhook-Ausfall und erfolgreichen Payload.
+Sinnvolle Erweiterungen: Backend mit Datenbank und serverseitiger Idempotenz, simulierte Nachbestellung/Wareneingang, exportierbare Reports und adaptive Grafikqualität. Sie sind keine Voraussetzung für die bestehende Portfolio-Demo.
 
-Aktuell **15 Logiktests**: elf für Bestellverarbeitung und Adapter, zwei für Laufwege und Gehgeschwindigkeit, zwei für gültige Geometrie/Klickflächen. Dazu bestehen **12 Playwright-Browserfälle** für Desktop und mobile Chromium-Ansicht. Die GitHub-Dateien unter `.github/workflows/` führen Installation mit festem Lockfile, Logiktests, Build und die zwölf Browserfälle aus. Im veröffentlichten Repository ist GitHub Pages eingerichtet und `ENABLE_PAGES=true` aktiviert. Der Workflow veröffentlicht erfolgreiche Builds des Hauptbranches; siehe `PORTFOLIO.md`.
-
-Manueller Prüflauf: Startansicht → 3D-Auswahl → Produktdetails → Warenkorb → +/−/Entfernen → Demo-Kauf → Bestand 4→3 → Warnung → sechs erfolgreiche Events. Zusätzlich Fehler/Retry, Kundenkäufe bei 4×, Kameraansichten, Schnellfragen und mobile Dialoge prüfen. Ein echter lokaler n8n-Testworkflow wurde aktiviert und per HTTP sowie Browser-App geprüft; der JSON-Export ist enthalten. Die öffentliche Demo benötigt diesen Dienst nicht.
-
-## Sinnvolle nächste Erweiterungen
-
-- Backend mit dauerhafter Persistenz und serverseitiger Idempotenz.
-- Simulierte Nachbestellung und Wareneingang als zusätzliche Events.
-- Exportierbare Demo-Reports, weitere Kundenstrategien und Szenarien.
-- Feinere Geometrie, eigene Materialtexturen und adaptive Grafikqualität für schwächere Geräte.
-
-## Rolle, Video und visuelle Qualität
-
-Nico89x definiert Konzept und Anforderungen; Implementierung, eigene 3D-Geometrie, Dokumentation und Prüfungen wurden mit KI-Unterstützung erstellt. [Die Projektstudie](docs/CASE_STUDY.md) beschreibt Entscheidungen und Grenzen ohne erfundene Geschäftsergebnisse. [Die echte Demo-Aufnahme](docs/DEMO_VIDEO.md) ist 49,72 Sekunden lang, ohne Ton, mit deutschen Untertiteln und ohne nachträglich eingesetzte Erfolgswerte.
-
-Die Figuren haben natürlichere Proportionen, einen geformten Oberkörper, modellierte Gesichtszüge und Stoffstruktur. Obst besitzt feinere Formgebung. Der Bildwinkel berücksichtigt schmale Mobilansichten. Bei pausierten Kund:innen wird die Szene nur bei Bedarf neu gerendert; Kamerafahrten bleiben flüssig. Die Darstellung bleibt stilisierte Echtzeitgrafik.
+**Lizenz:** Projektcode unter [MIT](LICENSE); eingebundene Charakterdaten unter [CC0](THIRD_PARTY_ASSETS.md). Abhängigkeiten behalten ihre jeweiligen Lizenzen.
