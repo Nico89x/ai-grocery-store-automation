@@ -47,7 +47,7 @@ pnpm test:e2e           # 12 Browserfälle: Desktop und mobile Chromium-Ansicht
 pnpm preview            # Produktionsbuild lokal öffnen
 ```
 
-CI installiert mit festem Lockfile und prüft Formatierung, Tests, Build und Browserfälle. Pages veröffentlicht erst nach erfolgreichen Prüfungen. Details und konkrete Ergebnisse: [VERIFICATION.md](VERIFICATION.md).
+CI installiert mit festem Lockfile und prüft Formatierung, Tests, Build und Browserfälle. Die Browserfälle verwenden den zugänglichen Einstieg mit reduzierter Bewegung und prüfen das einschaltbare Straßenleben sowie animierte Kundenkäufe ausdrücklich. Die Demo-Aufnahme zeigt den normalen Bewegungseinstieg. Fehlgeschlagene CI-Läufe speichern Trace, Screenshot und Report sieben Tage. Pages veröffentlicht erst nach erfolgreichen Prüfungen. Details und konkrete Ergebnisse: [VERIFICATION.md](VERIFICATION.md).
 
 ## Bedienung und 3D-Szene
 

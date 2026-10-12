@@ -15,6 +15,9 @@ export default defineConfig({
     baseURL: `http://127.0.0.1:${port}`,
     trace: "retain-on-failure",
     channel: "chromium",
+    // Exercise the accessible reduced-motion entry state on software-rendered CI.
+    // The scene journey explicitly starts/stops street life; customer orders still animate.
+    reducedMotion: "reduce",
     screenshot: "only-on-failure",
     launchOptions: { args: ["--enable-unsafe-swiftshader"] },
   },
