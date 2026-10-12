@@ -11,7 +11,7 @@ concurrency:
   cancel-in-progress: false
 jobs:
   build:
-    timeout-minutes: 15
+    timeout-minutes: 25
     if: vars.ENABLE_PAGES == 'true'
     permissions:
       contents: read
