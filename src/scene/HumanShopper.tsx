@@ -55,7 +55,15 @@ function RiggedHuman({
         item.material = material;
         item.castShadow = true;
         item.receiveShadow = true;
-        item.frustumCulled = false;
+        // A conservative local bound covers the procedural poses without
+        // skinning every vertex just to decide whether an off-screen person draws.
+        if (!item.geometry.boundingSphere)
+          item.geometry.computeBoundingSphere();
+        if (item instanceof THREE.SkinnedMesh && item.geometry.boundingSphere) {
+          item.boundingSphere = item.geometry.boundingSphere.clone();
+          item.boundingSphere.radius = item.boundingSphere.radius * 1.4 + 0.25;
+        }
+        item.frustumCulled = true;
         if (material.name === "Clothing")
           material.color.set(
             index % 3 === 2
