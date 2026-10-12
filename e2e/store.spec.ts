@@ -208,9 +208,8 @@ test("Responsiv, Außen/Innenansicht, zugänglicher Dialog und Reset", async ({
   await expect(
     page.getByRole("button", { name: "Straßenleben starten", exact: true }),
   ).toBeVisible();
-  await page
-    .getByRole("button", { name: "Straßenleben starten", exact: true })
-    .click();
+  // Start and pause are now verified. Keep decorative movement paused while
+  // checking the independent product dialog and reset on software-rendered CI.
   await page
     .getByRole("button", { name: "Laden betreten", exact: true })
     .click();
