@@ -188,6 +188,10 @@ test("Responsiv, Außen/Innenansicht, zugänglicher Dialog und Reset", async ({
     .getByRole("button", { name: "3D-Ansicht verkleinern", exact: true })
     .click();
   await page.getByRole("button", { name: "Straßenblick", exact: true }).click();
+  // Reduced-motion entry pauses decorative street movement, but keeps it opt-in.
+  await page
+    .getByRole("button", { name: "Straßenleben starten", exact: true })
+    .click();
   await page
     .getByRole("button", { name: "Straßenleben pausieren", exact: true })
     .click();
