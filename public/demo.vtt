@@ -1,27 +1,25 @@
 WEBVTT
 
-00:00.000 --> 00:04.000
-AI Grocery Store Automation
-Portfolio-Demo – keine echte Bestellung und keine Zahlung.
+00:00.000 --> 00:10.325
+AI Grocery Store Automation · Portfolio-Demo – keine echte Bestellung und keine Zahlung.
 
-00:04.000 --> 00:08.000
-Vom Geschäft auf der Straße in den interaktiven 3D-Laden.
+00:10.325 --> 00:19.997
+Ein modelliertes Geschäft mit belebter Nachbarschaft und lokal geladenen CC0-Charakteren.
 
-00:08.000 --> 00:12.000
-Produktdetails öffnen und eine Packung Kesselchips in den Warenkorb legen.
+00:19.997 --> 00:24.174
+Produkte auswählen, Details ansehen und einen Demo-Warenkorb zusammenstellen.
 
-00:12.000 --> 00:18.000
-Der Demo-Kauf reduziert den Bestand von 4 auf 3.
-Eine Lagerwarnung ergänzt den Workflow auf sechs Ereignisse.
+00:24.174 --> 00:28.217
+Der Kauf erzeugt eine Bestellung. Chips: 4 → 3. Mindestbestand 4: eine Lagerwarnung.
 
-00:18.000 --> 00:25.000
-Der Fehlerschalter lässt den nächsten Kauf nach der Lagerbuchung scheitern.
-Der Wasserbestand ist bereits von 15 auf 14 reduziert.
+00:28.217 --> 00:30.305
+Das Workflow-Panel protokolliert Status, Zeitstempel und verständliche Ereignisse.
 
-00:25.000 --> 00:31.000
-„Erneut versuchen“ schließt den Prozess ab.
-Der Wasserbestand bleibt 14 – kein zweiter Abzug.
+00:30.305 --> 00:34.343
+Ein absichtlicher Testfehler entsteht nach der Lagerbuchung eines Wasserkaufs.
 
-00:31.000 --> 00:49.720
-Animierte Kund:innen wählen Produkte und kaufen über dieselbe Bestellqueue.
-Alle Daten und Benachrichtigungen sind Beispiele.
+00:34.343 --> 00:36.385
+Retry führt nur den fehlgeschlagenen Abschluss erneut aus. Wasser bleibt bei 14 Stück.
+
+00:36.385 --> 00:44.523
+Animierte Kund:innen wählen Produkte und verwenden dieselbe Bestellqueue. Keine echten Käufe.
