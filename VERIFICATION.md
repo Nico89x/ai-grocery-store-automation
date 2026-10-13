@@ -129,8 +129,16 @@ Dieser Abschnitt belegt den lokal geprüften Stand. Öffentliche CI-/Deployment-
 
 Der [zweite Release-Prüflauf](https://github.com/Nico89x/ai-grocery-store-automation/actions/runs/38221726182) bestand Formatierung, 17 Tests, Build und die ersten fünf Desktop-Browserfälle. Der umfangreiche Ansichtswechsel-Fall überschritt zweimal sein Gesamtzeitlimit von 120 Sekunden. Die heruntergeladene Playwright-Spur zeigt langsame erfolgreiche Aktionen: etwa 18 Sekunden für den Beschleunigungsbutton und 43 Sekunden für das Pausieren des Straßenlebens; es wurden keine Fachlogikfehler festgestellt. Sechs Mobilfälle liefen nach dem endgültigen Fehler nicht mehr.
 
-Als Korrektur erkennt der automatische Grafikmodus kleine Bildschirme und Software-Renderer und reduziert dort die Pixelauflösung auf 1 sowie dynamische Schatten. Der Modus ist über „Grafikqualität“ sichtbar umschaltbar; er ist keine versteckte Testsonderbehandlung. Der komplexe Ansichtswechsel-Fall erhält 180 Sekunden; das CI-Gesamtbudget beträgt 25 Minuten. Die funktionalen Assertions bleiben bestehen.
+Als Korrektur erkennt der automatische Grafikmodus kleine Bildschirme und Software-Renderer und reduziert dort die Pixeldichte auf 1 sowie dynamische Schatten. Der Modus ist über „Grafikqualität“ sichtbar umschaltbar; er ist keine versteckte Testsonderbehandlung. Der komplexe Ansichtswechsel-Fall erhält 180 Sekunden; das CI-Gesamtbudget beträgt 25 Minuten. Die funktionalen Assertions bleiben bestehen.
 
 Nach dieser Grafikmodus-Korrektur: 17 Tests, TypeScript und Produktionsbuild erfolgreich; kompletter lokaler Desktop-/Mobillauf mit Grafikumschaltung erneut **12/12 erfolgreich, Exitcode 0, 1,6 Minuten**. Formatierungsprüfung erfolgreich. Der zugehörige neue öffentliche CI-Lauf ist separat zu verifizieren.
 
 Der [dritte Release-Lauf](https://github.com/Nico89x/ai-grocery-store-automation/actions/runs/38224206395) bestand erneut Formatierung, 17 Tests, Build und fünf Desktopfälle. Der Ansichtswechsel-Fall erreichte beim anschließenden Produktdialog sein Gesamtlimit von 180 Sekunden. Der normale Playwright-Headless-Shell-Browser ersetzt daher den ausdrücklich aktivierten neuen Chromium-Headless-Modus; vollständige Trace-Aufnahmen werden erst bei der ersten Wiederholung aktiviert. Erfolgreiche Fälle behalten alle Assertions ohne kontinuierliche Bildschirmaufzeichnung.
+
+Der vollständige lokale Lauf im regulären Headless-Shell-Browser bestand alle zwölf Fälle mit Exitcode 0 in 7,8 Minuten. Die Kamera-/Dialogprüfung lässt das zuvor erfolgreich gestartete und pausierte Straßenleben für die unabhängige Produktdialog-/Reset-Prüfung pausiert. Dadurch entfällt eine unnötige dauerhafte Grafiklast, ohne Funktionsassertions zu entfernen; automatische Kundenbestellungen bleiben separat mit aktiver Animation geprüft.
+
+Gezielter lokaler Prüflauf nach dieser Teststabilisierung: beide Ansichtswechsel-/Dialogfälle erfolgreich, Exitcode 0; Desktop 54,9 Sekunden, Mobilansicht 38,7 Sekunden. Die übrigen unveränderten Fälle bestanden im zuvor vollständig erfolgreichen 12er-Lauf.
+
+### Freigabeprüfung am 13. Oktober 2026
+
+Der [vierte Release-Prüflauf](https://github.com/Nico89x/ai-grocery-store-automation/actions/runs/38265675784) bestand Formatierung, 17 Tests, Build und fünf Desktopfälle; der noch dauerhaft animierte Ansichtswechsel-Fall überschritt erneut sein Gesamtzeitlimit. Die danach lokal geprüfte Korrektur mit pausierter Nachbarschaft ist im Release-Branch enthalten. Dieser korrigierte Stand wird vor Merge und Veröffentlichung erneut vollständig auf GitHub geprüft.
