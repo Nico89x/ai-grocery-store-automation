@@ -789,7 +789,7 @@ function CameraController({
       [0.2, 1.75, 5.35],
       [8, 5.6, 17.5],
       [0, 7.8, 28],
-      [-2.05, 1.48, 9.5],
+      [-2.05, 1.38, 10.5],
     ];
     if (camera instanceof THREE.PerspectiveCamera) {
       camera.fov =
