@@ -8,7 +8,7 @@ Eine Automation ist in einem Portfolio schwer einzuschätzen, wenn nur ein Workf
 
 ## Rolle und Arbeitsweise
 
-Nico89x hat Konzept, Zielbild und Anforderungen vorgegeben und die Weiterentwicklung gesteuert. Implementierung, eigene Modelle, Dokumentation und technische Prüfungen wurden mit KI-Unterstützung erstellt. Der veröffentlichte Code und die Prüfnachweise machen die Lösung überprüfbar. Es werden keine handgeschriebene Entwicklungsgeschichte, berufliche Qualifikationen oder nachgewiesenen Geschäftserfolge behauptet.
+Nico89x hat Konzept, Zielbild und Anforderungen vorgegeben und die Weiterentwicklung gesteuert. Implementierung, eigene Ladengeometrie, Animationen, Dokumentation und technische Prüfungen wurden mit KI-Unterstützung erstellt. Der veröffentlichte Code und die Prüfnachweise machen die Lösung überprüfbar. Es werden keine handgeschriebene Entwicklungsgeschichte, berufliche Qualifikationen oder nachgewiesenen Geschäftserfolge behauptet.
 
 ## Drei Entscheidungen, die sich erklären lassen
 
@@ -30,7 +30,7 @@ Nico89x hat Konzept, Zielbild und Anforderungen vorgegeben und die Weiterentwick
 
 Portfolio-Simulation: keine Zahlungen, keine echten Bestellungen, keine echten E-Mails oder Slack-Nachrichten. NOA antwortet regelbasiert. Der Lagerbestand liegt im Browser-Arbeitsspeicher. Das Projekt enthält keine Produktionsdaten, Accounts oder externen KI-API-Schlüssel.
 
-Geometrie und Materialtexturen sind selbst erzeugt. Natürlichere Proportionen, Stoffstruktur, Gelenke, Gesichter und Produktformen verbessern die Echtzeitdarstellung. Sie bleibt eine stilisierte 3D-Szene und erreicht nicht die Qualität eines fotorealistischen Offline-Renderings.
+Laden, Roboter, Produkte, Umgebung und prozedurale Materialtexturen entstehen aus Projektcode. Die texturierten Menschen basieren auf lokal gebündelten CC0-MakeHuman-Derivaten mit eigenen Anpassungen und Animationen; [Herkunft und Lizenz](../THIRD_PARTY_ASSETS.md) sind dokumentiert. Sie bleibt eine stilisierte 3D-Szene und erreicht nicht die Qualität eines fotorealistischen Offline-Renderings.
 
 Der n8n-Empfänger ist ein stateless Testworkflow. Er bestätigt Empfang und Konsistenz, betreibt aber kein dauerhaftes Warenwirtschaftssystem. Die öffentliche Demo nutzt standardmäßig lokale Verarbeitung; eine lokale n8n-Instanz ist nicht automatisch öffentlich erreichbar.
 

@@ -16,7 +16,5 @@
       }
     ]
   },
-  "lowStockProducts": [
-    "chips"
-  ]
+  "lowStockProducts": ["chips"]
 }

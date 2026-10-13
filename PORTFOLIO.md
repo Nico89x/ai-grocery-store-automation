@@ -1,36 +1,23 @@
 # Veröffentlichung und Bewerbung
 
-## Öffentlich veröffentlicht
+**[Live-Demo](https://nico89x.github.io/ai-grocery-store-automation/#/simulation)** · **[GitHub](https://github.com/Nico89x/ai-grocery-store-automation)** · [Projektstudie](docs/CASE_STUDY.md) · [Vorführleitfaden](docs/INTERVIEW_GUIDE.md)
 
-- Repository: [Nico89x/ai-grocery-store-automation](https://github.com/Nico89x/ai-grocery-store-automation)
-- Live-Demo: [AI Grocery Store Automation](https://nico89x.github.io/ai-grocery-store-automation/)
-- [Tests und Produktionsbuild](https://github.com/Nico89x/ai-grocery-store-automation/actions/runs/37779439241) und [Pages-Veröffentlichung](https://github.com/Nico89x/ai-grocery-store-automation/actions/runs/37779439206) am 8. Oktober 2026 erfolgreich.
-- Die aktuelle öffentliche Version wurde auf Desktop (1440 × 1000) und Mobilgerät (390 × 844) im Browser geprüft: direkter 3D-Produktklick, Chips-Bestand 4 → 3, eine Lagerwarnung, sechs erfolgreiche Events sowie Wasser-Fehler und Retry ohne zweiten Abzug.
+## Beschreibung für eine Bewerbung
 
-Diese beiden Links können in Bewerbungen verwendet werden. Für die Demo ist keine Anmeldung erforderlich. Alle Abläufe sind ausdrücklich simuliert.
+Interaktive 3D-Einkaufsdemo mit React, TypeScript und React Three Fiber. Ein lokaler Ereignisprozessor verbindet Warenkorb, Bestellqueue, Lagerverwaltung und sichtbare Workflow-Logs. Fehler und Retry lassen sich ohne doppelte Lagerbuchung vorführen. Ein optionaler, getesteter n8n-Webhook bestätigt synthetische Bestellereignisse.
 
-## Spätere Änderungen veröffentlichen
+Konzept und Anforderungen von Nico89x; Implementierung und technische Prüfungen mit KI-Unterstützung. Lokal gebündelte CC0-Charakterdaten sind separat dokumentiert. Keine Produktionsintegration oder erfundenen Geschäftsergebnisse.
 
-1. Änderungen an Quellcode und Dokumentation im main-Branch speichern; keine Zugangsdaten, node_modules, work oder dist einchecken.
-2. **Tests and production build** und **Publish portfolio demo** unter Actions prüfen. Beide Workflows installieren aus dem Lockfile und führen 15 Logiktests, den TypeScript-/Produktionsbuild und zwölf Browserfälle aus.
-3. Pages verwendet **GitHub Actions** als Quelle. Die Repository-Variable **ENABLE_PAGES=true** ist gesetzt. Der Pages-Workflow veröffentlicht nur einen erfolgreichen Build.
-4. Die Live-Demo im Browser nachprüfen, besonders Warnungsfall und Retry. Der lokale Link 127.0.0.1 funktioniert ausschließlich auf dem eigenen Computer.
-5. Entwicklung und Prüfergebnisse ehrlich dokumentieren; keine erfundene Commit-Historie, Produktionskunden oder Leistungskennzahlen.
+## Veröffentlichungsablauf
 
-## Kurzbeschreibung für das Repository
+1. Änderungen über einen Pull Request prüfen. Nur Quellcode, lokale Laufzeitassets, Dokumentation und echte Nachweise veröffentlichen.
+2. CI prüft Formatierung, 17 Tests, TypeScript-/Produktionsbuild und zwölf Browserfälle.
+3. Nach Merge auf main veröffentlicht der Pages-Workflow den geprüften Build. Die Repository-Variable ENABLE_PAGES=true aktiviert diesen Schritt.
+4. Öffentliche Demo erneut prüfen: Charakterdateien unter dem Repository-Unterpfad, 3D-Produktklick, Warenkorb, Warnung und Retry.
+5. Screenshots und Demo-Video müssen den tatsächlich veröffentlichten Stand zeigen. Konkrete Laufnachweise stehen in VERIFICATION.md.
 
-Interactive 3D grocery store with a local event-driven automation engine, inventory management, observable order workflows, safe retries and an optional webhook adapter. Built with React, TypeScript and React Three Fiber. Portfolio simulation; no payments or real orders.
+Der lokale Link 127.0.0.1 funktioniert nur auf dem eigenen Gerät. Die öffentliche Demo startet ohne n8n-Endpunkt; für eine externe n8n-Verbindung ist ein separat betriebener HTTPS-Empfänger erforderlich.
 
-## Was du im Bewerbungsgespräch zeigen kannst
+## Umfang
 
-- **Problem:** Ein Kauf muss nachvollziehbar in Lagerbuchung, Warnung und Abschluss übersetzt werden.
-- **Lösung:** Ein gemeinsamer lokaler Reducer verarbeitet manuelle Käufe und animierte Kunden über eine Queue. Bestandsprüfung und Buchung erfolgen für die komplette Bestellung.
-- **Robustheit:** Retry nach einem Fehler setzt nach bereits erfolgter Buchung fort; Bestand und Warnung werden nicht doppelt verarbeitet. Der optionale Webhook ist vom lokalen Ablauf getrennt.
-- **Nachweis:** Automatische Logiktests, sichtbare Events mit Zeitstempeln, manueller Browserprüflauf und nachvollziehbare Architektur in der README.
-- **Abgrenzung:** Keine Produktionsintegration, keine echten Bestellungen, kein echtes KI-Modell, keine behaupteten Umsatz- oder Produktivitätszahlen. Die Assistenz antwortet regelbasiert.
-
-## Ergänzungen vom 8. Oktober 2026
-
-Die [Projektstudie](docs/CASE_STUDY.md) dokumentiert Konzept, Rolle, KI-Unterstützung, Architekturentscheidungen und Grenzen. Eine [echte 49,72-Sekunden-Aufnahme](docs/DEMO_VIDEO.md) zeigt Kauf, Lagerwarnung, Fehler/Retry und Kund:innen. Der [n8n-Testworkflow](automation/README.md) wurde per HTTP und direkt aus der App geprüft. 15 Logiktests und zwölf Browserfälle bestehen; CI prüft beides vor Veröffentlichung.
-
-Noch bewusst offen: Produktionsbackend, dauerhafte Persistenz, serverseitige Idempotenz und simulierte Nachbestellung. Das sind Erweiterungen über die funktionsfähige Portfolio-Demo hinaus. Eine Lizenz sollte bewusst gewählt werden; das Projekt behauptet keine Produktionsintegration oder messbaren Geschäftserfolge.
+Die funktionsfähige Portfolio-Demo benötigt keinen Produktionsserver. Dauerhafte Persistenz, serverseitige Idempotenz, Nachbestellungen und echte Gerätetests bleiben klar benannte Erweiterungen. Code: MIT; MakeHuman-Assetdaten: CC0.

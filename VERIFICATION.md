@@ -97,3 +97,48 @@ Kamerafahrten nutzen jetzt eine monotone Zeitmessung; Simulationstakte holen bis
 - Der reale lokale n8n-Testworkflow ist weiterhin aktiv. Die öffentliche Demo benötigt ihn nicht. Synthetische HTTP-Nachweise und Importdateien bleiben unter `automation/` und `docs/` verfügbar.
 
 Die abschließende Aktualisierung der Markdown-Nachweise und Screenshots verändert keinen Anwendungscode. Die oben verlinkten vollständigen Prüfungen beziehen sich auf den veröffentlichten Anwendungsstand.
+
+## Lokaler Ausbau: texturierte Menschen und Nachbarschaft, 9. Oktober 2026
+
+Dieser Abschnitt beschreibt den lokalen Entwicklungsstand. Die oben verlinkten GitHub-Prüfungen und öffentlichen Screenshots gehören weiterhin zum vorherigen veröffentlichten Stand.
+
+- Drei CC0-MakeHuman-Derivate ersetzen die prozeduralen Figuren: texturierte Haut, Haare, Augen, Kleidung und Schuhe; pro Figur ein eigenes Skelett. Quellen, Lizenz und Konvertierung stehen in THIRD_PARTY_ASSETS.md.
+- Menschen-Nahansicht mit Figurenwechsel, Straßenblick, vergrößerbare Szene und separat pausierbares Straßenleben ergänzt. Café-Gäste, Passant:innen, Fahrradfahrer und Fahrzeuge erzeugen keine Bestellungen. Nur die bestehenden Demo-Kund:innen buchen Waren über die Bestellqueue.
+- Produktionsbuild erfolgreich. 17 Tests erfolgreich, einschließlich endlicher GLB-Geometrie, normalisierter Skinning-Gewichte, gültiger Knochenindizes, lokaler Texturpfade und eines Downloadbudgets unter 6 MB für die Charakterdateien.
+- Alle zwölf vorhandenen Browserfälle liefen nach der Modellintegration erfolgreich durch: Warenkorb, Kauf mit Chips 4 → 3 und Warnung, echter 3D-Packungsklick, Fehler/Retry ohne doppelte Buchung, automatische Kundenbestellung und responsive Bedienung, jeweils auf Desktop und Mobil. Der damalige Windows-Runner wurde nach den zwölf erfolgreichen Fällen beim Aufräumen beendet.
+- Die anschließend erweiterten zwei Responsivfälle wurden am 9. Oktober erneut mit Exitcode 0 bestanden: Menschenansicht, zweimaliger Figurenwechsel, keine sichtbare 3D-Fehleransicht, Groß-/Kompaktansicht ohne horizontalen Überlauf, Straßenblick, Straßenleben pausieren/starten, Laden betreten, Produktdialog und Reset. Dabei werden auch Konsolenfehler geprüft. Laufzeit 58,4 Sekunden.
+- Ein anfänglicher Testfehler zählte das unsichtbare HTML-Ersatzbild innerhalb des Canvas. Die korrigierte Prüfung sucht sichtbare Fehleransichten. Der lokale Browser zeigte die Modelle und keine Konsolenfehler oder Warnungen.
+- Die Modelle sind Echtzeit-Webgrafik mit prozeduralen Bewegungen, kein Motion Capture und kein fotorealistischer Scan. Auf echten Mobilgeräten wurde die Bildrate nicht gemessen.
+
+Damals lokale Vorschau: http://127.0.0.1:4174/#/simulation. Der öffentliche Pages-Stand war bei diesem visuellen Ausbau noch nicht ersetzt.
+
+## Vollständige Portfolio-Prüfung – 12. Oktober 2026
+
+- 17 Logik-, Adapter-, Geometrie- und Charakterdatei-Tests erfolgreich; TypeScript und Vite-Produktionsbuild erfolgreich. Einheitliche Quellcodeformatierung mit Prettier geprüft; CI prüft sie ebenfalls.
+- Alle **12 Playwright-Fälle** im vollständigen Lauf erfolgreich, **Exitcode 0**, Laufzeit 2,8 Minuten. Geprüft: Warenkorbmengen/Centpreise/Entfernen, echter 3D-Produktklick, Chips 4 → 3 mit genau einer Warnung und sechs erfolgreichen Ereignissen, Fehler/Retry bei Wasser 15 → 14 ohne zweite Buchung, automatische Kundenbestellung sowie Desktop-/Mobilbedienung einschließlich Menschenansicht, Figurenwechsel, Außen-/Straßenansicht und Reset. Unbehandelte Browser- und Konsolenfehler werden geprüft.
+- Neuer synthetischer Kauf aus der laufenden Browser-App an den realen lokalen n8n-Empfänger: **Ausführung 286 bestätigt**, Webhook verbunden. Lagerbuchung und simulierte Benachrichtigung verbleiben im lokalen Simulator; keine echten externen Nachrichten. Nachweis: [n8n-Browseransicht](docs/n8n-connected.png).
+- Neue ungekürzte Demo-Aufnahme: **45,36 Sekunden**, 1440 × 1000, 25 fps, H.264/Faststart, **3.685.304 Bytes**. Aufnahme prüft die sichtbaren Kauf-/Retry-Ergebnisse und Browserfehler. Neue Außen-, Menschen- und Innenraum-Screenshots zeigen tatsächlich gerenderte Zustände.
+- README, MIT-Lizenz, Beitragsanleitung, Änderungsprotokoll, Architektur-/Projektstudie, Asset-Herkunft und Gesprächsleitfaden ergänzt bzw. aktualisiert. Die Modelle sind CC0-Derivate; die Herkunft wird von der eigenen Ladenszene und Verarbeitungslogik getrennt erläutert.
+- Verbleibende Grenzen: Echtzeit-Webgrafik mit prozeduralen Bewegungen; keine fotorealistischen Scans. Mobile Browserbreiten wurden emuliert, die Bildrate auf physischen Mobilgeräten wurde nicht gemessen. Three.js wird verzögert geladen; sein komprimierter Hauptchunk beträgt etwa 355 kB. Die Vite-Größenwarnung wird bewusst nicht unterdrückt.
+
+Der erste neue GitHub-Lauf überschritt auf dem Software-Grafikrechner beim ersten Browserfall das Zeitlimit und wurde beendet. Unsichtbare Charaktermeshes werden jetzt über konservative, bewegungstaugliche Grenzen ausgeblendet. Die Browserfälle verwenden den vorhandenen zugänglichen Einstieg mit reduzierter Bewegung; Straßenleben starten/pausieren und animierte Kundenkäufe werden weiterhin explizit geprüft. Der anschließende vollständige lokale Lauf bestand **alle zwölf Fälle mit Exitcode 0 in 1,6 Minuten**. 17 Fach-/Assettests und der Produktionsbuild bestehen ebenfalls. CI bricht beim ersten endgültigen Fehler ab, protokolliert ihn sofort und hält Trace/Screenshot/Report sieben Tage als Artefakt vor.
+
+Dieser Abschnitt belegt den lokal geprüften Stand. Öffentliche CI-/Deployment-Ergebnisse werden erst nach tatsächlicher Veröffentlichung ergänzt.
+
+### Weitere CI-Diagnose am 12. Oktober
+
+Der [zweite Release-Prüflauf](https://github.com/Nico89x/ai-grocery-store-automation/actions/runs/38221726182) bestand Formatierung, 17 Tests, Build und die ersten fünf Desktop-Browserfälle. Der umfangreiche Ansichtswechsel-Fall überschritt zweimal sein Gesamtzeitlimit von 120 Sekunden. Die heruntergeladene Playwright-Spur zeigt langsame erfolgreiche Aktionen: etwa 18 Sekunden für den Beschleunigungsbutton und 43 Sekunden für das Pausieren des Straßenlebens; es wurden keine Fachlogikfehler festgestellt. Sechs Mobilfälle liefen nach dem endgültigen Fehler nicht mehr.
+
+Als Korrektur erkennt der automatische Grafikmodus kleine Bildschirme und Software-Renderer und reduziert dort die Pixeldichte auf 1 sowie dynamische Schatten. Der Modus ist über „Grafikqualität“ sichtbar umschaltbar; er ist keine versteckte Testsonderbehandlung. Der komplexe Ansichtswechsel-Fall erhält 180 Sekunden; das CI-Gesamtbudget beträgt 25 Minuten. Die funktionalen Assertions bleiben bestehen.
+
+Nach dieser Grafikmodus-Korrektur: 17 Tests, TypeScript und Produktionsbuild erfolgreich; kompletter lokaler Desktop-/Mobillauf mit Grafikumschaltung erneut **12/12 erfolgreich, Exitcode 0, 1,6 Minuten**. Formatierungsprüfung erfolgreich. Der zugehörige neue öffentliche CI-Lauf ist separat zu verifizieren.
+
+Der [dritte Release-Lauf](https://github.com/Nico89x/ai-grocery-store-automation/actions/runs/38224206395) bestand erneut Formatierung, 17 Tests, Build und fünf Desktopfälle. Der Ansichtswechsel-Fall erreichte beim anschließenden Produktdialog sein Gesamtlimit von 180 Sekunden. Der normale Playwright-Headless-Shell-Browser ersetzt daher den ausdrücklich aktivierten neuen Chromium-Headless-Modus; vollständige Trace-Aufnahmen werden erst bei der ersten Wiederholung aktiviert. Erfolgreiche Fälle behalten alle Assertions ohne kontinuierliche Bildschirmaufzeichnung.
+
+Der vollständige lokale Lauf im regulären Headless-Shell-Browser bestand alle zwölf Fälle mit Exitcode 0 in 7,8 Minuten. Die Kamera-/Dialogprüfung lässt das zuvor erfolgreich gestartete und pausierte Straßenleben für die unabhängige Produktdialog-/Reset-Prüfung pausiert. Dadurch entfällt eine unnötige dauerhafte Grafiklast, ohne Funktionsassertions zu entfernen; automatische Kundenbestellungen bleiben separat mit aktiver Animation geprüft.
+
+Gezielter lokaler Prüflauf nach dieser Teststabilisierung: beide Ansichtswechsel-/Dialogfälle erfolgreich, Exitcode 0; Desktop 54,9 Sekunden, Mobilansicht 38,7 Sekunden. Die übrigen unveränderten Fälle bestanden im zuvor vollständig erfolgreichen 12er-Lauf.
+
+### Freigabeprüfung am 13. Oktober 2026
+
+Der [vierte Release-Prüflauf](https://github.com/Nico89x/ai-grocery-store-automation/actions/runs/38265675784) bestand Formatierung, 17 Tests, Build und fünf Desktopfälle; der noch dauerhaft animierte Ansichtswechsel-Fall überschritt erneut sein Gesamtzeitlimit. Die danach lokal geprüfte Korrektur mit pausierter Nachbarschaft ist im Release-Branch enthalten. Dieser korrigierte Stand wird vor Merge und Veröffentlichung erneut vollständig auf GitHub geprüft.
