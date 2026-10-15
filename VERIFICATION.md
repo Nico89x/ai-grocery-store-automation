@@ -1,4 +1,21 @@
-# Prüfprotokoll – 7. Oktober 2026
+# Prüfnachweise – Release 2.1.0
+
+## Aktueller Stand – 13. Oktober 2026
+
+- [Release-Prüfung](https://github.com/Nico89x/ai-grocery-store-automation/actions/runs/38372402471) erfolgreich: Formatierung, 17 Fach-/Adapter-/Geometrie-/Assettests, TypeScript und Produktionsbuild sowie **12/12 Desktop-/Mobil-Browserfälle**, ohne Wiederholung, in 11,8 Minuten.
+- [Prüfung auf main](https://github.com/Nico89x/ai-grocery-store-automation/actions/runs/38374533619) ebenfalls erfolgreich: dieselben 17 Tests, Build und **12/12 Browserfälle**, in 6,6 Minuten.
+- [PR #2](https://github.com/Nico89x/ai-grocery-store-automation/pull/2) zusammengeführt. Der Dateibaum von main entspricht exakt dem geprüften Release; 87 Quellcode-, Dokumentations- und Assetdateien wurden mit dem lokalen Stand verglichen.
+- Zusätzliche Sichtprüfung: vollständiger Kopf in der Menschenansicht; Grafiksteuerung und Eingang bei 390 × 844 ohne Überlagerung und ohne horizontalen Überlauf. Keine Konsolenfehler in der geprüften normalen Browseransicht.
+- Echte lokale n8n-Empfangsbestätigung am 12. Oktober: **Ausführung 286**, siehe [Anschluss und Grenzen](automation/README.md). Die öffentliche Demo startet ohne externen Endpunkt.
+
+- [Pages-Veröffentlichung](https://github.com/Nico89x/ai-grocery-store-automation/actions/runs/38374533500) erfolgreich: alle 12 Browserfälle im Veröffentlichungsjob bestanden (11,8 Minuten), Build und Deployment erfolgreich. Geprüfter Laufzeitcode: Commit `092337ea5b377bff8519870e87e13f0eba585199`.
+- **Öffentliche Anwendung erneut geprüft:** alle **12/12 Desktop-/Mobilfälle** direkt gegen `https://nico89x.github.io/ai-grocery-store-automation/#/simulation` erfolgreich, Exitcode 0, **1,4 Minuten**. Verwendung des vollständigen Chromium-Browsers; die GitHub-Prüfungen verwenden den regulären Headless-Shell-Browser. Keine Assertions wurden ausgelassen.
+- Zusätzlicher manueller Kauf mit normalem Bewegungseinstieg auf der öffentlichen Seite: Chips **4 → 3**, eine Warnung und sechs erfolgreiche Ereignisse. Menschenansicht vollständig gerendert; Modus „Lokale Demo-Verarbeitung“. [Öffentlicher Browsernachweis](docs/public-release.png).
+- Öffentliche Demo-Aufnahme über die native Videosteuerung abgespielt: **45,36 Sekunden**, Wiedergabe bis zum Ende, `readyState = 4`, kein Medienfehler. Der öffentliche Link funktioniert unabhängig vom lokalen Vorschauprozess.
+
+Die abschließenden Dokumentations- und Bildnachweise verändern keinen Laufzeitcode. Verbleibende Erweiterungen sind echte Gerätetests, dauerhafte Datenhaltung und ein separat betriebener öffentlicher HTTPS-n8n-Empfänger. Die folgenden Abschnitte sind datierte historische Prüfschritte; ihre Testzahlen und Verbindungszustände beschreiben jeweils den damaligen Stand.
+
+## Historisches Prüfprotokoll – 7. Oktober 2026
 
 Die Prüfung betrifft die lokale Portfolio-Demo. Es wurden keine echten Zahlungen, Bestellungen, Benachrichtigungen oder externen Webhooks ausgelöst.
 

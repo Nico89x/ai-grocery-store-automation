@@ -1,6 +1,6 @@
 # Änderungen
 
-## 2.1.0 – Portfolio-Ausbau, 12. Oktober 2026
+## 2.1.0 – Portfolio-Ausbau, veröffentlicht am 13. Oktober 2026
 
 - Sichtbarer automatischer Grafikmodus für kleine Bildschirme und Software-Renderer; Detail- und Sparmodus bleiben manuell wählbar.
 
@@ -9,6 +9,7 @@
 - Erweiterte responsive Browserprüfungen und Tests für gültige lokale Charakterdateien.
 - Lesbare einheitliche Quellcodeformatierung, reproduzierbare Start-/Testanleitung, aktualisierte Projektstudie und Gesprächsleitfaden.
 - Aktualisierte Bilder und echte Demo-Aufnahme; klare Abgrenzung zwischen lokalem Simulator und optionalem n8n-Empfang.
+- Vollständig bestandene Release-, Hauptbranch- und Veröffentlichungsprüfungen; zwölf zusätzliche Browserfälle gegen die öffentliche Demo. Vollständiger Portraitausschnitt und überlagerungsfreie mobile Grafiksteuerung.
 
 ## Vorheriger veröffentlichter Stand – 8. Oktober 2026
 
