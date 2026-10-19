@@ -1,9 +1,11 @@
-# AI Grocery Store Automation
+# Grocery Store Automation
 
 [![Tests and build](https://github.com/Nico89x/ai-grocery-store-automation/actions/workflows/verify.yml/badge.svg)](https://github.com/Nico89x/ai-grocery-store-automation/actions/workflows/verify.yml)
 [![Live demo](https://github.com/Nico89x/ai-grocery-store-automation/actions/workflows/pages.yml/badge.svg)](https://github.com/Nico89x/ai-grocery-store-automation/actions/workflows/pages.yml)
 
 Ein interaktiver 3D-Laden macht einen Einkauf erlebbar; ein lokaler Ereignisprozessor macht Bestellung, Lagerbuchung, Warnung und Fehlerbehandlung sichtbar.
+
+**Stack:** TypeScript · React · React Three Fiber · n8n-Webhooks · Vitest · Playwright
 
 **For reviewers:** React / TypeScript / React Three Fiber portfolio simulation with an event-driven order queue, atomic inventory updates, observable workflows and safe completion retries. An optional, tested n8n webhook validates completed demo orders. No credentials needed for the default demo.
 
