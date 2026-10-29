@@ -1,11 +1,11 @@
-# Grocery Store Automation
+# Grocery Store · Webanwendung, Testing & Bestell-API
 
 [![Tests and build](https://github.com/Nico89x/ai-grocery-store-automation/actions/workflows/verify.yml/badge.svg)](https://github.com/Nico89x/ai-grocery-store-automation/actions/workflows/verify.yml)
 [![Live demo](https://github.com/Nico89x/ai-grocery-store-automation/actions/workflows/pages.yml/badge.svg)](https://github.com/Nico89x/ai-grocery-store-automation/actions/workflows/pages.yml)
 
 Ein interaktiver 3D-Laden macht einen Einkauf erlebbar; ein lokaler Ereignisprozessor macht Bestellung, Lagerbuchung, Warnung und Fehlerbehandlung sichtbar.
 
-**Stack:** TypeScript · React · React Three Fiber · n8n-Webhooks · Vitest · Playwright
+**Stack:** TypeScript · React · React Three Fiber · Node.js · SQLite · n8n-Webhooks · Vitest · Playwright
 
 **For reviewers:** React / TypeScript / React Three Fiber portfolio simulation with an event-driven order queue, atomic inventory updates, observable workflows and safe completion retries. An optional, tested n8n webhook validates completed demo orders. No credentials needed for the default demo.
 
@@ -15,6 +15,15 @@ Ein interaktiver 3D-Laden macht einen Einkauf erlebbar; ein lokaler Ereignisproz
 ![Laden mit erfolgreicher Bestellung und Lagerwarnung](docs/store-interior.png)
 
 **Portfolio-Demo – keine echte Bestellung und keine Zahlung.** Keine Anmeldung, personenbezogenen Daten, echte Nachricht oder KI-API. Produkte und Personen sind Beispiele. Ohne Webhook-URL werden keine Bestellereignisse übertragen. Der Zustand liegt im Arbeitsspeicher und beginnt nach Neuladen von vorn.
+
+## Zwei Betriebsmodi
+
+| Modus                                     | Start                                                                             | Daten                                           |
+| ----------------------------------------- | --------------------------------------------------------------------------------- | ----------------------------------------------- |
+| Öffentliche 3D-Simulation                 | [Browserdemo](https://nico89x.github.io/ai-grocery-store-automation/#/simulation) | Browser-Arbeitsspeicher; Reset bei Neuladen.    |
+| Lokale Bestell-API mit eigenem Web-Client | `node server/start.mjs`, dann http://127.0.0.1:4180                               | SQLite; Bestand und Belege überleben Neustarts. |
+
+Die API prüft Preise und Mengen serverseitig und speichert wiederholbare Bestellungen in einer Transaktion. Sie verwendet denselben Produktkatalog, aber einen eigenen Bestand. Kein Login, keine Zahlung und kein öffentlicher Backend-Dienst. [Anleitung und API-Vertrag](server/README.md) · [Technische Arbeitsprobe](docs/ENGINEERING_CHANGE.md).
 
 ## In zwei Minuten ausprobieren
 
@@ -28,7 +37,7 @@ Ohne Grenzübertritt werden Warnung und Benachrichtigung übersprungen. Weitere 
 
 ## Lokal starten
 
-Node.js **22.12+**, geprüft mit Node 24. Für reproduzierbare Abhängigkeiten: **pnpm 11.25.0** und das enthaltene Lockfile.
+Node.js **24 oder neuer** für Frontend und ergänzenden SQLite-Server. Für reproduzierbare Abhängigkeiten: **pnpm 11.25.0** und das enthaltene Lockfile.
 
 ```bash
 npm install --global pnpm@11.25.0
@@ -41,7 +50,9 @@ Die lokale Vorschau steht dann unter **http://127.0.0.1:4175/**. Sie ist nur auf
 Alternativ funktionieren **npm install** und **npm run dev**. Die Browsertests setzen kein globales pnpm voraus; ihr Server startet direkt über Node.
 
 ```bash
-pnpm test               # 17 Logik-, Adapter-, Geometrie- und Assettests
+pnpm test               # Logik-, Adapter-, Geometrie- und Assettests
+pnpm test:backend       # SQLite-Persistenz und HTTP-Vertrag
+pnpm test:e2e:backend   # Lokaler Bestell-Client im Browser
 pnpm format:check       # Einheitliche Quellcodeformatierung
 pnpm build              # TypeScript und Produktionsbuild
 pnpm exec playwright install chromium
@@ -117,6 +128,6 @@ Die Demo zeigt Zustandsverarbeitung und einen geprüften n8n-Anschluss. Sie enth
 
 Die Grafikqualität lässt sich in der Szene umschalten. Automatisch nutzt die App auf kleinen Bildschirmen und bei erkennbarer Software-Grafik eine Pixeldichte von 1 ohne dynamische Schatten; auf Desktop-Grafikkarten bleiben detaillierte Schatten und höhere Auflösung erhalten. Produkte, Menschen, Animationen und Fachlogik sind in beiden Modi verfügbar. Diese Erkennung ist eine einfache Heuristik, kein gemessener FPS-Regler.
 
-Sinnvolle Erweiterungen: Backend mit Datenbank und serverseitiger Idempotenz, simulierte Nachbestellung/Wareneingang, exportierbare Reports und eine anhand der Bildrate geregelte Grafikqualität. Sie sind keine Voraussetzung für die bestehende Portfolio-Demo.
+Das ergänzende lokale Backend mit SQLite und serverseitiger Idempotenz steht in [server/](server/). Es wird separat gestartet. Mögliche nächste Schritte sind eine bewusst gestaltete Kopplung beider Betriebsmodi, Nachbestellung/Wareneingang und exportierbare Reports.
 
 **Lizenz:** Projektcode unter [MIT](LICENSE); eingebundene Charakterdaten unter [CC0](THIRD_PARTY_ASSETS.md). Abhängigkeiten behalten ihre jeweiligen Lizenzen.
