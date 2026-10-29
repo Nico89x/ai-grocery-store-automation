@@ -3,6 +3,7 @@ import assert from "node:assert/strict";
 import { mkdtemp, rm } from "node:fs/promises";
 import { tmpdir } from "node:os";
 import { join } from "node:path";
+import { request as httpRequest } from "node:http";
 import { openStore } from "./store.mjs";
 import { createApp } from "./app.mjs";
 
@@ -151,6 +152,23 @@ test("HTTP boundary handles parallel retries, malformed bodies, origin and host"
       headers: { "Content-Type": "application/json", ...extra },
       body: typeof body === "string" ? body : JSON.stringify(body),
     });
+  const rawPost = (body, headers = {}) =>
+    new Promise((resolve, reject) => {
+      const request = httpRequest(
+        base + "/api/orders",
+        {
+          method: "POST",
+          headers: { "Content-Type": "application/json", ...headers },
+        },
+        (response) => {
+          response.resume();
+          response.on("end", () => resolve(response.statusCode));
+        },
+      );
+      request.on("error", reject);
+      request.write(body);
+      request.end();
+    });
   try {
     const responses = await Promise.all([post(order()), post(order())]);
     assert.deepEqual(responses.map((r) => r.status).sort(), [200, 201]);
@@ -182,9 +200,12 @@ test("HTTP boundary handles parallel retries, malformed bodies, origin and host"
       403,
     );
     assert.equal(
-      (await post(order("request-0009"), { Host: "untrusted.example" })).status,
+      await rawPost(JSON.stringify(order("request-0009")), {
+        Host: "untrusted.example",
+      }),
       403,
     );
+    assert.equal(await rawPost("{}" + " ".repeat(9000)), 413);
     const home = await fetch(base);
     assert.match(await home.text(), /Persistente Bestell-Demo/);
     assert.match(
