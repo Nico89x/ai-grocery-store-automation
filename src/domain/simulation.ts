@@ -401,7 +401,25 @@ export function reducer(
     )
   )
     return previous;
-  const state = structuredClone(previous);
+  // Keep completed receipts and immutable catalog snapshots by reference.
+  // Only pending orders and customer state can change during the next step.
+  const state: SimulationState = {
+    ...previous,
+    cart: { ...previous.cart },
+    inventory: { ...previous.inventory },
+    orders: previous.orders.map((order) =>
+      order.status === "completed"
+        ? order
+        : {
+            ...order,
+            steps: order.steps.map((event) => ({ ...event })),
+            warnings: [...order.warnings],
+          },
+    ),
+    warnings: [...previous.warnings],
+    logs: [...previous.logs],
+    customers: previous.customers.map((customer) => ({ ...customer })),
+  };
   switch (action.type) {
     case "cart.quantity": {
       if (

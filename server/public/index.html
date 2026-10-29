@@ -1,0 +1,70 @@
+<!doctype html>
+<html lang="de">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta
+      name="description"
+      content="Lokale Bestell-Demo mit SQLite, serverseitiger Validierung und wiederholbaren Anfragen."
+    />
+    <title>Persistente Bestell-Demo · Nico Joschke</title>
+    <link rel="stylesheet" href="/styles.css" />
+    <script src="/client.js" defer></script>
+  </head>
+  <body>
+    <a class="skip" href="#main">Zum Inhalt springen</a>
+    <header>
+      <p class="eyebrow">NICO JOSCHKE · SOFTWARE & TESTING</p>
+      <h1>Persistente Bestell-Demo</h1>
+      <p>
+        Der Server prüft Preise und Mengen. Bestellungen und Bestand bleiben
+        nach einem Neustart erhalten.
+      </p>
+      <p class="notice">
+        Lokale Portfolio-Demo mit Beispieldaten. Keine Zahlung, keine echte
+        Bestellung.
+      </p>
+    </header>
+    <main id="main">
+      <section aria-labelledby="catalog-title">
+        <h2 id="catalog-title">Eine Demo-Bestellung erstellen</h2>
+        <form id="order-form">
+          <div id="products"><p>Produkte werden geladen …</p></div>
+          <div class="actions">
+            <button id="submit" type="submit" disabled>
+              Demo-Bestellung speichern
+            </button>
+            <button id="repeat" type="button" disabled>
+              Letzte Anfrage wiederholen
+            </button>
+            <button id="refresh" type="button">Daten neu laden</button>
+          </div>
+        </form>
+        <p id="status" role="status" aria-live="polite"></p>
+        <p class="hint">
+          Eine Wiederholung verwendet denselben Anfrageschlüssel. Ein
+          gespeicherter Beleg wird zurückgegeben, ohne den Bestand erneut zu
+          reduzieren.
+        </p>
+      </section>
+      <section aria-labelledby="history-title">
+        <h2 id="history-title">Gespeicherte Bestellungen</h2>
+        <p id="count"></p>
+        <ol id="orders">
+          <li>Noch keine Daten geladen.</li>
+        </ol>
+        <p class="hint">
+          Die letzten 20 Belege werden angezeigt. Neuladen und Serverneustarts
+          löschen die Datenbank nicht.
+        </p>
+      </section>
+    </main>
+    <footer>
+      <a
+        href="https://github.com/Nico89x/ai-grocery-store-automation/blob/main/server/README.md"
+        >Aufbau, Start und technische Grenzen</a
+      >
+      <span>Node.js · SQLite · HTML/CSS/JavaScript</span>
+    </footer>
+  </body>
+</html>

@@ -1,7 +1,7 @@
 export function CaseStudy() {
   return (
     <section className="case-study" aria-label="Projektstudie und Demo-Video">
-      <p className="eyebrow">NICO89X / AUTOMATION PORTFOLIO</p>
+      <p className="eyebrow">NICO89X / SOFTWARE · TESTING · APIS</p>
       <h2>Ein Einkauf, dessen Verarbeitung sichtbar bleibt.</h2>
       <p>
         Die Herausforderung: Produktwahl, Warenkorb und Lagerbestand müssen auch
@@ -9,6 +9,12 @@ export function CaseStudy() {
         verbindet die 3D-Szene mit einer Bestellqueue, einer einmaligen
         Lagerbuchung und nachvollziehbaren Ereignissen. Der optionale
         n8n-Testempfänger bestätigt echte HTTP-Demo-Ereignisse.
+      </p>
+      <p>
+        Ergänzend gibt es eine lokale Bestell-API mit SQLite und eigenem
+        Web-Client. Sie prüft Preise und Mengen auf dem Server und speichert
+        Bestellungen dauerhaft. Wiederholte Anfragen buchen den Bestand nicht
+        erneut. Die öffentliche 3D-Simulation behält ihren Browserzustand.
       </p>
       <p className="fine">
         Nico89x definiert Konzept und Anforderungen. Anwendung, Ladenszene,
@@ -33,6 +39,14 @@ export function CaseStudy() {
           rel="noreferrer"
         >
           Projektstudie und Prüfnachweise
+        </a>
+        <a
+          className="button secondary"
+          href="https://github.com/Nico89x/ai-grocery-store-automation/tree/main/server"
+          target="_blank"
+          rel="noreferrer"
+        >
+          Lokale Bestell-API ausprobieren
         </a>
       </div>
       <details>

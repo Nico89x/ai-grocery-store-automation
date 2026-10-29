@@ -1,8 +1,8 @@
 {
   "name": "ai-grocery-store-automation",
-  "version": "2.1.0",
+  "version": "2.2.0",
   "engines": {
-    "node": ">=22.12.0"
+    "node": ">=24.0.0"
   },
   "packageManager": "pnpm@11.25.0",
   "private": true,
@@ -16,7 +16,10 @@
     "test:e2e": "playwright test",
     "demo:record": "node scripts/record-demo.mjs",
     "format": "prettier --write .",
-    "format:check": "prettier --check ."
+    "format:check": "prettier --check .",
+    "backend": "node server/start.mjs",
+    "test:backend": "node --test server/*.test.mjs",
+    "test:e2e:backend": "playwright test --config playwright.backend.config.ts"
   },
   "dependencies": {
     "@react-three/drei": "^10.7.7",
