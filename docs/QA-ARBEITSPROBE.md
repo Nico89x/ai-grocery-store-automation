@@ -2,15 +2,15 @@
 
 Fehlerbericht im Jira-Format. Alle Produkt- und Bestelldaten sind synthetisch.
 
-| Feld              | Eintrag                                                          |
-| ----------------- | ---------------------------------------------------------------- |
-| Typ               | Fehler                                                           |
-| Priorität         | Mittel                                                           |
-| Komponente        | Persistente Bestell-Demo · Mengenwahl                            |
+| Feld              | Eintrag                                                        |
+| ----------------- | -------------------------------------------------------------- |
+| Typ               | Fehler                                                         |
+| Priorität         | Mittel                                                         |
+| Komponente        | Persistente Bestell-Demo · Mengenwahl                          |
 | Umgebung          | Node.js 24 und DOM-Nachbildung, ergänzende SQLite-Backendtests |
-| Erfasst           | 23. November 2026                                                |
-| Betroffener Stand | `c41d4cd0f9aa`                                                   |
-| Status            | Korrigiert und per lokaler Regression geprüft                    |
+| Erfasst           | 23. November 2026                                              |
+| Betroffener Stand | `c41d4cd0f9aa`                                                 |
+| Status            | Korrigiert und per lokaler Regression geprüft                  |
 
 ## Reproduktion
 
@@ -38,7 +38,7 @@ Fehlerbericht im Jira-Format. Alle Produkt- und Bestelldaten sind synthetisch.
 
 ## Ausführung und Nachweis
 
-Der ausgelieferte Client-Code wurde vor und nach der Korrektur mit einer DOM-Nachbildung für den Bestandswechsel ausgeführt. Alle sechs lokalen SQLite-/HTTP-Backendtests waren erfolgreich. Der [Playwright-Test](../e2e-backend/orders.spec.ts) ist für die zusätzliche Prüfung im echten Browser Teil der bestehenden CI-Suite.
+Der ausgelieferte Client-Code wurde vor und nach der Korrektur mit einer DOM-Nachbildung sowie einem lokalen HTTP-Server und SQLite ausgeführt. Dabei wurden auch die Wiederholung ohne doppelte Buchung und die Meldung bei leerer Auswahl geprüft. Alle sechs automatisierten Backendtests waren erfolgreich. Der [Playwright-Test](../e2e-backend/orders.spec.ts) ist für die zusätzliche Prüfung im echten Browser Teil der bestehenden CI-Suite.
 
 ```sh
 pnpm test:e2e:backend
