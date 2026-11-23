@@ -45,8 +45,13 @@ async function load() {
       input.value,
     ]),
   );
+  const clearedProducts = [];
   productList.replaceChildren();
   for (const product of snapshot.products) {
+    const maximum = Math.min(99, product.stock);
+    const previousQuantity = chosen.get(product.id) ?? "0";
+    const quantityChanged = Number(previousQuantity) > maximum;
+    if (quantityChanged) clearedProducts.push(product.name);
     const label = document.createElement("label"),
       info = document.createElement("span");
     label.className = "product";
@@ -61,9 +66,9 @@ async function load() {
     Object.assign(input, {
       type: "number",
       min: "0",
-      max: String(Math.min(99, product.stock)),
+      max: String(maximum),
       step: "1",
-      value: chosen.get(product.id) ?? "0",
+      value: quantityChanged ? "0" : previousQuantity,
       disabled: product.stock === 0,
     });
     input.dataset.product = product.id;
@@ -95,6 +100,7 @@ async function load() {
   }
   if (!snapshot.orders.length)
     history.append(element("li", "Noch keine Demo-Bestellung gespeichert."));
+  return clearedProducts;
 }
 async function submitOrder(payload) {
   if (busy) return;
@@ -168,10 +174,16 @@ refresh.addEventListener("click", async () => {
   if (busy) return;
   setBusy(true);
   try {
-    await load();
+    const clearedProducts = await load();
     status.textContent = uncertain
       ? "Daten geladen. Eine Anfrage ist noch unbestätigt; bitte dieselbe Anfrage wiederholen."
       : "Gespeicherte Daten neu geladen.";
+    if (clearedProducts.length) {
+      status.textContent +=
+        " Bestand geändert. Bitte Menge neu wählen: " +
+        clearedProducts.join(", ") +
+        ".";
+    }
   } catch {
     status.textContent =
       "Server nicht erreichbar. Bitte lokalen Server prüfen.";

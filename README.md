@@ -9,7 +9,7 @@ Ein interaktiver 3D-Laden macht einen Einkauf erlebbar; ein lokaler Ereignisproz
 
 **For reviewers:** React / TypeScript / React Three Fiber portfolio simulation with an event-driven order queue, atomic inventory updates, observable workflows and safe completion retries. An optional, tested n8n webhook validates completed demo orders. No credentials needed for the default demo.
 
-**[Live ausprobieren](https://nico89x.github.io/ai-grocery-store-automation/#/simulation)** · [Projektstudie](docs/CASE_STUDY.md) · [Demo-Video](https://nico89x.github.io/ai-grocery-store-automation/demo.mp4) · [Prüfnachweise](VERIFICATION.md) · [n8n-Anleitung](automation/README.md)
+**[Live ausprobieren](https://nico89x.github.io/ai-grocery-store-automation/#/simulation)** · [Projektstudie](docs/CASE_STUDY.md) · [Demo-Video](https://nico89x.github.io/ai-grocery-store-automation/demo.mp4) · [Prüfnachweise](VERIFICATION.md) · [QA-Arbeitsprobe](docs/QA-ARBEITSPROBE.md) · [n8n-Anleitung](automation/README.md)
 
 ![Laden und belebte Nachbarschaft](docs/store-exterior.png)
 ![Laden mit erfolgreicher Bestellung und Lagerwarnung](docs/store-interior.png)
