@@ -7,10 +7,10 @@ Fehlerbericht im Jira-Format. Alle Produkt- und Bestelldaten sind synthetisch.
 | Typ               | Fehler                                                         |
 | Priorität         | Mittel                                                         |
 | Komponente        | Persistente Bestell-Demo · Mengenwahl                          |
-| Umgebung          | Node.js 24 und DOM-Nachbildung, ergänzende SQLite-Backendtests |
+| Umgebung          | Node.js 24, Playwright-Browser, SQLite-Backendtests |
 | Erfasst           | 23. November 2026                                              |
 | Betroffener Stand | `c41d4cd0f9aa`                                                 |
-| Status            | Korrigiert und per lokaler Regression geprüft                  |
+| Status            | Korrigiert, lokale Regression und Browser-CI erfolgreich                  |
 
 ## Reproduktion
 
@@ -21,7 +21,7 @@ Fehlerbericht im Jira-Format. Alle Produkt- und Bestelldaten sind synthetisch.
 
 **Ist vor der Korrektur.** Die neue Obergrenze wurde angezeigt, die veraltete Eingabe blieb im Mengenfeld. Bei der Testausführung stand im Feld weiterhin `10`, obwohl höchstens `9` verfügbar waren. Der Status meldete lediglich, dass die Daten neu geladen wurden. Die Formularvalidierung konnte das Speichern anschließend blockieren.
 
-**Soll.** Das betroffene Mengenfeld wird geleert und der Status nennt das Produkt, dessen Menge neu gewählt werden muss. Gültige Mengen anderer Produkte bleiben erhalten. Die Demo legt beim Neuladen keine Bestellung an.
+**Soll.** Das betroffene Mengenfeld wird auf `0` zurückgesetzt und der Status nennt das Produkt, dessen Menge neu gewählt werden muss. Gültige Mengen anderer Produkte bleiben erhalten. Die Demo legt beim Neuladen keine Bestellung an.
 
 **Auswirkung.** Eine inzwischen ungültige Menge kann den Checkout blockieren. Der Anwender kann die Menge manuell korrigieren. Die serverseitige Bestandsprüfung bleibt zuständig für zwischenzeitliche Bestandsänderungen.
 
@@ -38,7 +38,7 @@ Fehlerbericht im Jira-Format. Alle Produkt- und Bestelldaten sind synthetisch.
 
 ## Ausführung und Nachweis
 
-Der ausgelieferte Client-Code wurde vor und nach der Korrektur mit einer DOM-Nachbildung sowie einem lokalen HTTP-Server und SQLite ausgeführt. Dabei wurden auch die Wiederholung ohne doppelte Buchung und die Meldung bei leerer Auswahl geprüft. Alle sechs automatisierten Backendtests waren erfolgreich. Der [Playwright-Test](../e2e-backend/orders.spec.ts) ist für die zusätzliche Prüfung im echten Browser Teil der bestehenden CI-Suite.
+Der ausgelieferte Client-Code wurde vor und nach der Korrektur mit einer DOM-Nachbildung sowie einem lokalen HTTP-Server und SQLite ausgeführt. Dabei wurden auch die Wiederholung ohne doppelte Buchung und die Meldung bei leerer Auswahl geprüft. Alle sechs automatisierten Backendtests waren erfolgreich. Der [Playwright-Test](../e2e-backend/orders.spec.ts) lief anschließend im echten Browser in der vollständigen GitHub-Actions-Suite erfolgreich. Der [CI-Lauf 45177937456](https://github.com/Nico89x/ai-grocery-store-automation/actions/runs/45177937456) meldet `success`, geprüft am 24. November 2026. Er umfasst die Regression zum Bestandswechsel sowie die übrigen Browserprüfungen und den Build.
 
 ```sh
 pnpm test:e2e:backend
